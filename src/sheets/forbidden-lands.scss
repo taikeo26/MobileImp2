@@ -1,0 +1,62 @@
+/* Custom CSS */
+@media only screen and (max-width: 600px) {
+  .forbidden-lands {
+    .main-tab {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sheet-tabs {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .combat-tab {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .talent-tab {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .character {
+      .currencies {
+        .header {
+          flex-direction: column;
+          position: inherit !important;
+
+          .values {
+            flex-wrap: wrap;
+            align-items: center;
+            text-align: center;
+
+            label {
+              display: block;
+              margin: 10px;
+            }
+          }
+        }
+      }
+
+      .gears {
+        overflow: initial;
+      }
+    }
+
+    .gear-tab {
+      overflow: auto;
+    }
+  }
+
+  .consumables.border {
+    grid-template-columns: auto auto !important;
+  }
+
+  .window-app {
+    .window-header {
+      background: white;
+    }
+  }
+}

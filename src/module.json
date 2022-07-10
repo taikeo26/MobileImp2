@@ -11,7 +11,7 @@
       "name": "touch-vtt"
     }
   ],
-  "styles": ["./mobile-improvements.css", "./sheets/dnd5e.css"],
+  "styles": ["./mobile-improvements.css", "./sheets/dnd5e.css", "./sheets/forbidden-lands.css"],
   "packs": [],
   "languages": [
     {
