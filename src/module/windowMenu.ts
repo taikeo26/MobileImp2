@@ -24,7 +24,7 @@ const icons = {
 };
 
 export class WindowMenu extends Application {
-  list: JQuery<HTMLElement> = null;
+  list: JQuery<HTMLElement> | null = null;
   nav: MobileUI;
 
   constructor(nav: MobileUI) {
@@ -78,11 +78,11 @@ export class WindowMenu extends Application {
     return row;
   };
   windowAdded(appId: number): void {
-    this.list.append(this.newWindow(window.WindowManager.windows[appId]));
+    this.list?.append(this.newWindow(window.WindowManager.windows[appId]));
     this.update();
   }
   windowRemoved(appId: number): void {
-    this.list.find(`li[data-id="${appId}"]`).remove();
+    this.list?.find(`li[data-id="${appId}"]`).remove();
     this.update();
   }
 
