@@ -46,8 +46,8 @@ export class WindowMenu extends Application {
     let windowType: string =
       win.icon ||
       win.tabName ||
-      win?.object?.data?.type ||
-      win?.object?.data?.entity ||
+      win?.object?.system?.type ||
+      win?.object?.system?.entity ||
       (win.metadata ? "compendium" : "") ||
       "";
     windowType = windowType.toLowerCase();
