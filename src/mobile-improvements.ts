@@ -17,6 +17,16 @@ declare global {
   }
 }
 
+function setMeta() {
+  const meta = document.querySelector(`meta[name="viewport"]`);
+  if (meta) {
+    meta.setAttribute(
+      "content",
+      `width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"`
+    );
+  }
+}
+
 abstract class MobileMode {
   static enabled = false;
   static navigation: MobileUI;
@@ -25,6 +35,7 @@ abstract class MobileMode {
     if (MobileMode.enabled) return;
     MobileMode.enabled = true;
     document.body.classList.add("mobile-improvements");
+    setMeta();
     ui.nav?.collapse();
     viewHeight();
     Hooks.call("mobile-improvements:enter");
@@ -52,6 +63,10 @@ abstract class MobileMode {
     }
   }
 }
+
+document.body.addEventListener("scroll", () => {
+  document.body.scroll(0, 0);
+});
 
 function togglePlayerList(show: boolean) {
   if (show) {
