@@ -5,12 +5,12 @@
   "description": "Foundry VTT module for mobile screens",
   "scripts": {
     "build": "node build.mjs build",
-    "build:install": "node build.mjs build && node build.mjs link",
+    "build:install": "node build.mjs build link",
     "build:watch": "node build.mjs watch",
     "clean": "node build.mjs clean",
-    "clean:real": "node build.mjs clean && node build.mjs unlink",
+    "clean:real": "node build.mjs clean unlink",
     "package": "node build.mjs package",
-    "publish": "node build.mjs publish"
+    "publish": "node build.js clean build package"
   },
   "repository": {
     "type": "git",
