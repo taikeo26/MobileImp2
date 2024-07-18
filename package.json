@@ -10,7 +10,7 @@
     "clean": "node build.mjs clean",
     "clean:real": "node build.mjs clean unlink",
     "package": "node build.mjs package",
-    "publish": "node build.js clean build package"
+    "publish": "node build.mjs clean build package"
   },
   "repository": {
     "type": "git",
