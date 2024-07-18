@@ -3,18 +3,22 @@
   "title": "Mobile Improvements",
   "description": "Mobile Improvements improves usability on smaller screen sizes.",
   "version": "",
-  "authors": [{
-    "name": "Sunspots"
-  }],
+  "authors": [
+    {
+      "name": "Sunspots"
+    }
+  ],
   "scripts": [],
   "esmodules": ["mobile-improvements.js"],
   "relationships": {
-    "requires": [{
-      "id": "touch-vtt",
-      "type": "module"
-    }]
+    "requires": [
+      {
+        "id": "touch-vtt",
+        "type": "module"
+      }
+    ]
   },
-  "styles": ["./mobile-improvements.css", "./sheets/dnd5e.css"],
+  "styles": ["./mobile-improvements.css", "./dnd5e.css"],
   "packs": [],
   "languages": [
     {
