@@ -58,6 +58,7 @@ export class MobileUI extends Application {
     this.noCanvas = game.settings.get("core", "noCanvas") as boolean;
     this.state = this.noCanvas ? ViewState.App : ViewState.Map;
 
+    //@ts-ignore
     const r = super.render(force, ...arg);
     this.windowMenu.render(force);
     this.mobileMenu.render(force);
@@ -92,7 +93,7 @@ export class MobileUI extends Application {
       $(document.body).toggleClass("hide-hud");
     }
     this.state = ViewState.Map;
-    canvas.ready && canvas.app.start();
+    canvas.ready && canvas.app?.start();
     this.setDrawerState(DrawerState.None);
     this.updateMode();
   }

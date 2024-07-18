@@ -10,6 +10,13 @@ import { MobileUI, ViewState } from "./module/MobileUi.js";
 import { viewHeight } from "./module/util.js";
 import { TouchInput } from "./module/touchInput.js";
 
+declare global {
+  interface LenientGlobalVariableTypes {
+    game: never;
+    ui: never;
+  }
+}
+
 abstract class MobileMode {
   static enabled = false;
   static navigation: MobileUI;
@@ -48,9 +55,9 @@ abstract class MobileMode {
 
 function togglePlayerList(show: boolean) {
   if (show) {
-    document.getElementById("players").classList.add("mobile-hidden");
+    document.getElementById("players")?.classList.add("mobile-hidden");
   } else {
-    document.getElementById("players").classList.remove("mobile-hidden");
+    document.getElementById("players")?.classList.remove("mobile-hidden");
   }
 }
 
@@ -122,7 +129,7 @@ Hooks.once("renderChatLog", (app: Application) => {
   btn.on("click", (evt) => {
     evt.preventDefault();
     if (touchWhenFocused) {
-      textarea.focus();
+      textarea?.focus();
     }
     //@ts-ignore
     app._onChatKeyDown({
