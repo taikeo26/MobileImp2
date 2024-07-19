@@ -49,6 +49,8 @@ export class MobileMenu extends Application {
           "noCanvas",
           !game.settings.get("core", "noCanvas")
         );
+        //@ts-ignore
+        SettingsConfig.reloadConfirm();
         break;
       case "exit":
         setSetting(settings.PIN_MOBILE_MODE, false);
