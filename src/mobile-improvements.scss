@@ -237,6 +237,9 @@ body.mobile-improvements {
     height: 60px;
     flex: 0 0 60px;
   }
+  section.chat-sidebar .jump-to-bottom > a {
+    width: 100%;
+  }
 
   #chat-message {
     margin: 0;

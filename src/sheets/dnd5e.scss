@@ -469,3 +469,202 @@
     }
   }
 }
+
+/*
+ * DnD sheets version 2
+ */
+
+@media screen and (max-width: 600px) {
+  .mobile-improvements .dnd5e2.sheet.actor {
+    &.character .sheet-body .tab-body .col-2 {
+      padding-bottom: 150px;
+      display: block;
+    }
+
+    .sheet-body .main-content .tab-body .tab:not(.active) {
+      display: none;
+    }
+
+    &.character .sheet-header {
+      grid-template-columns: 1fr 148px;
+    }
+
+    &.character .sheet-header > .left {
+      padding: 0 1.5rem 0 1rem;
+    }
+
+    &.character .sheet-header > .left.optional-ability-1 {
+      padding-right: unset;
+    }
+
+    &.character
+      form.collapsed
+      .sheet-header
+      > .left:is(.optional-ability-1, .optional-ability-2) {
+      padding-right: unset;
+    }
+
+    &.character .sheet-header > .right {
+      --padding-right: 3rem;
+    }
+
+    &.character .sheet-header > .right > div:last-child .sheet-header-buttons {
+      flex-direction: column;
+      right: 12px;
+      top: 0;
+    }
+
+    &.character .ability-scores {
+      left: 0;
+      top: unset;
+      bottom: 13px;
+    }
+
+    &.character form.collapsed .ability-scores {
+      left: 0;
+    }
+
+    &.character .ability-scores .rows {
+      padding: unset;
+      width: unset;
+    }
+
+    &.character .ability-scores .rows > div {
+      gap: 0;
+    }
+
+    &.character .sheet-body .main-content {
+      grid-template-columns: 1fr;
+      padding: unset;
+    }
+
+    &.character .sheet-body .sidebar .card {
+      width: calc(100% - 18px);
+    }
+
+    &.character form.collapsed .main-content > .sidebar {
+      margin-left: unset;
+    }
+
+    &.character .tab-details .tab-body {
+      padding-top: unset;
+    }
+
+    &.character nav.tabs {
+      left: 16px;
+      z-index: 2;
+      flex-direction: row;
+      top: calc(var(--dnd5e-sheet-header-height) + -2rem);
+      gap: 12px;
+    }
+
+    &.character nav.tabs > .item.active,
+    &.character nav.tabs > .item:hover {
+      margin-left: calc(
+        (var(--tab-full-width) - var(--tab-inactive-width)) * -1
+      );
+    }
+
+    &.character .tab.biography .characteristics {
+      width: unset;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    &.character .sheet-body .sidebar .card .portrait {
+      transition: margin-top 1s ease-out;
+    }
+
+    &.character .sheet-body .sidebar .card .portrait > img {
+      object-fit: contain;
+    }
+
+    &.character form.collapsed .sheet-body .sidebar .card .portrait {
+      transition: margin-top 1s ease-out;
+      margin-top: -300px;
+    }
+
+    &.character .sheet-body .sidebar .card .stats {
+      padding-top: 22px;
+    }
+
+    &.character .sheet-body .tab-body .col-2 > .left,
+    &.character .sheet-body .tab-body .col-2 .right {
+      padding-bottom: 0.5rem;
+    }
+
+    &.character nav.tabs > .item {
+      width: 40px;
+      border-radius: 8px;
+    }
+  }
+
+  .mobile-improvements {
+    .dnd5e2.vertical-tabs nav.tabs.tabs-right > .item::after {
+      inset: 4px 4px 4px 4px;
+      border-radius: 5px;
+      border-inline-start: 1px solid;
+    }
+
+    .dnd5e2 .inventory-element .encumbrance {
+      width: 100%;
+    }
+
+    .dnd5e.sheet .sheet-navigation .item {
+      font-size: unset;
+    }
+
+    /* Modules fixes*/
+    .window-app.item-piles-merchant-sheet {
+      transform: unset !important;
+    }
+
+    .item-piles-flexrow.item-pile-merchant-content {
+      flex-direction: column !important;
+      max-height: unset !important;
+    }
+
+    .merchant-left-pane {
+      max-height: unset !important;
+      max-width: unset !important;
+      overflow-y: unset !important;
+      border-right: unset !important;
+      margin-right: unset !important;
+      padding-right: unset !important;
+    }
+
+    .merchant-right-pane {
+      max-height: unset !important;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .mobile-improvements {
+    .dnd5e2.sheet.actor.character {
+      nav.tabs {
+        left: 16px;
+        z-index: 2;
+        flex-direction: row;
+        top: calc(var(--dnd5e-sheet-header-height) + -2.5rem);
+        gap: 10px;
+      }
+
+      nav.tabs > .item.active,
+      nav.tabs > .item:hover {
+        margin-left: calc(
+          (var(--tab-full-width) - var(--tab-inactive-width)) * -1
+        );
+      }
+      nav.tabs > .item {
+        width: 40px;
+        border-radius: 8px;
+      }
+    }
+
+    .dnd5e2.vertical-tabs nav.tabs.tabs-right > .item::after {
+      inset: 4px 4px 4px 4px;
+      border-radius: 5px;
+      border-inline-start: 1px solid;
+    }
+  }
+}
