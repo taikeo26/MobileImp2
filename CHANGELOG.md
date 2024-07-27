@@ -1,3 +1,17 @@
+## [1.2.0] - 2024-07-27
+
+Resurrecting Mobile Improvements for modern Foundry!
+
+### Changed
+
+- Updated build system and dependencies
+- Lots of V11/V12 compatibility updates thanks to Aioros
+- Big overhaul for dnd5e character sheet V2, from Anton Sudak
+
+### Known Issues
+
+- ApplicationV2 not yet properly supported.
+
 ## [1.1.1] - 2022-05-11
 
 ### Changed
