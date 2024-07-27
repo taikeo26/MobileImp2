@@ -411,6 +411,10 @@ body.mobile-improvements {
   .app {
     background: var(--miDarkBackgroundTransparent);
     border-radius: 0;
+
+    form .form-fields select {
+      width: 100%;
+    }
   }
 
   #client-settings section.content {

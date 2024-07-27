@@ -10,6 +10,7 @@ const icons = {
   actor: "fa-users",
   items: "fa-suitcase",
   item: "fa-suitcase",
+  weapon: "fa-suitcase",
   journal: "fa-book-open",
   tables: "fa-th-list",
   playlists: "fa-music",
@@ -46,8 +47,9 @@ export class WindowMenu extends Application {
     let windowType: string =
       win.icon ||
       win.tabName ||
-      win?.object?.system?.type ||
-      win?.object?.system?.entity ||
+      win.object?.type ||
+      win.object?.system?.type ||
+      win.object?.system?.entity ||
       (win.metadata ? "compendium" : "") ||
       "";
     windowType = windowType.toLowerCase();
