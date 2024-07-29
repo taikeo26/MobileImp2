@@ -17,12 +17,12 @@ declare global {
   }
 }
 
-function setMeta() {
+function setMeta(maxScale="1.0") {
   const meta = document.querySelector(`meta[name="viewport"]`);
   if (meta) {
     meta.setAttribute(
       "content",
-      `width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0`
+      `width=device-width, initial-scale=1.0, maximum-scale=${maxScale}, user-scalable=1`
     );
   }
 }
@@ -185,6 +185,79 @@ Hooks.on("createChatMessage", (message: ChatMessage) => {
     });
   }
 });
+
+Hooks.on("getApplicationHeaderButtons", addWindowZoomControlButton);
+Hooks.on("getActorSheetHeaderButtons", addWindowZoomControlButton);
+
+function addWindowZoomControlButton(app, buttons) {
+  if (MobileMode.enabled) {
+    buttons.unshift({
+      class: "zoom",
+      icon: "fa-solid fa-magnifying-glass-minus",
+      onclick: () => {
+        const html = $(app.element);
+        const currentZoom = getComputedStyle(html.get(0)).getPropertyValue("--zoomValue");
+        if (html.find(".window-zoom-slider").length > 0) {
+          html.find(".window-zoom-slider").remove();
+        } else {
+          const zoomTool = $("<div>").addClass("flexrow window-zoom-slider")
+            .insertAfter(html.find(".window-header"));
+          const zoomSlider = $("<input>").attr("type", "range")
+            .attr("min", 0.5).attr("max", 1).attr("step", 0.1).val(currentZoom)
+            .on("input", function() {
+              const newZoomValue = $(this).val() as number;
+              html.get(0).style.setProperty("--zoomValue", newZoomValue);
+              setMeta(newZoomValue < 1 ? "2.0" : "1.0");
+            })
+            .on("change", function() {
+              const orderedClasses = [...html.get(0).classList].filter(c => !["app", "window-app"].includes(c)).sort().join(" ");
+              setSetting(settings.WINDOWS_ZOOM_VALUES, foundry.utils.mergeObject(getSetting(settings.WINDOWS_ZOOM_VALUES), {[orderedClasses]: $(this).val()}));
+            })
+            .appendTo(zoomTool);
+          const zoomHide = $("<i>").addClass("toggle fas fa-caret-up")
+            .on("click", function() {
+              $(this).closest(".window-zoom-slider").remove();
+            })
+            .appendTo(zoomTool);
+        }
+      }
+    });
+  }
+}
+
+Hooks.on("renderFormApplication", setWindowZoomValueFromStorage);
+Hooks.on("renderActorSheet", setWindowZoomValueFromStorage);
+
+Hooks.on("WindowManager:Maximized", onMainWindowChanged);
+Hooks.on("WindowManager:Minimized", onMainWindowChanged);
+Hooks.on("WindowManager:Removed", onMainWindowChanged);
+
+function setMetaForWindow(html) {
+  if (MobileMode.enabled) {
+    const elem = html.get(0);
+    const isZoomed = elem && parseFloat(getComputedStyle(elem).getPropertyValue("--zoomValue")) < 1;
+    setMeta(isZoomed ? "2.0" : "1.0");
+  }
+}
+
+function onMainWindowChanged() {
+  if (MobileMode.enabled) {
+    const currentWindow = Object.values(windowMgr.getManager().windows).find(w => !w.minimized);
+    if (currentWindow) {
+      setMetaForWindow(currentWindow.app.element);
+    } else {
+      setMeta("1.0");
+    }
+  }
+}
+
+function setWindowZoomValueFromStorage(app, html) {
+  if (MobileMode.enabled) {
+    const settingObjectValue = getSetting(settings.WINDOWS_ZOOM_VALUES);
+    const orderedClasses = [...html.get(0).classList].filter(c => !["app", "window-app"].includes(c)).sort().join(" ");
+    html.get(0).style.setProperty("--zoomValue", settingObjectValue[orderedClasses] || 1);
+  }
+}
 
 const notificationQueueProxy = {
   get: function (target, key) {
