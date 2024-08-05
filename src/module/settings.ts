@@ -7,6 +7,7 @@ export enum settings {
   // Not in config
   SHOW_PLAYER_LIST = "showPlayerList",
   PIN_MOBILE_MODE = "pinMobileMode",
+  WINDOWS_ZOOM_VALUES = "windowZoomValues",
 }
 
 interface Callbacks {
@@ -39,6 +40,12 @@ const moduleSettings = [
     setting: settings.PIN_MOBILE_MODE,
     type: Boolean,
     default: false,
+    config: false,
+  },
+  {
+    setting: settings.WINDOWS_ZOOM_VALUES,
+    type: Object,
+    default: {},
     config: false,
   },
 ];
