@@ -151,6 +151,7 @@ Hooks.once("renderChatLog", (app: Application) => {
       code: "Enter",
       originalEvent: {},
       preventDefault: () => {},
+      stopPropagation: () => {},
       currentTarget: textarea,
     });
   });
