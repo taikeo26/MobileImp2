@@ -44,7 +44,7 @@ export class TouchInput {
       if (!this.cancelled && Date.now() - this.tapStart < this.tapMaxTime) {
         const target = this.getTarget(evt);
         if (!target) {
-          $(document.body).toggleClass("hide-hud");
+          globalThis.MobileMode.navigation.toggleHud()
         }
       }
       this.cancelled = false;

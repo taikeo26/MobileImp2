@@ -359,8 +359,9 @@ body.mobile-improvements {
   transition: transform 100ms ease-out;
 }
 .mobile-improvements {
-  &.hide-hud #sidebar {
-    transform: translateX(150%);
+  &.hide-hud #sidebar,
+  &.mobile-map #sidebar {
+    transform: translateX(300px);
   }
 
   &.mobile-app #controls,

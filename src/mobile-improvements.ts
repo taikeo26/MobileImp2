@@ -35,6 +35,7 @@ abstract class MobileMode {
     if (MobileMode.enabled) return;
     MobileMode.enabled = true;
     document.body.classList.add("mobile-improvements");
+    MobileMode.navigation?.updateMode();
     setMeta();
     ui.nav?.collapse();
     viewHeight();
@@ -45,6 +46,7 @@ abstract class MobileMode {
     if (!MobileMode.enabled) return;
     MobileMode.enabled = false;
     document.body.classList.remove("mobile-improvements");
+    MobileMode.navigation.updateMode();
     Hooks.call("mobile-improvements:leave");
   }
 

@@ -42,7 +42,7 @@ export class MobileUI extends Application {
   }
 
   _onShowWindow(): void {
-    $(document.body).removeClass("hide-hud");
+    this.toggleHud(true);
     $(document.body).addClass("windows-open");
 
     if (isTabletMode()) {
@@ -76,10 +76,55 @@ export class MobileUI extends Application {
       `<div id="show-mobile-navigation"><i class="fas fa-chevron-up"></i></div>`
     );
     html.siblings("#show-mobile-navigation").on("click", () => {
-      $(document.body).toggleClass("hide-hud");
+      this.toggleHud();
     });
     if (this.noCanvas) {
       this.element.find(".navigation-map").detach();
+    }
+  }
+
+  expandSidebarWithoutAnimation() {
+    //@ts-ignore
+    if ( !ui.sidebar._collapsed ) return;
+    const sidebar = ui.sidebar.element;
+    const tab = sidebar.find(".sidebar-tab.active");
+    const tabs = sidebar.find("#sidebar-tabs");
+    const icon = tabs.find("a.collapse i");
+    sidebar.css({width: "", height: ""});
+    sidebar.removeClass("collapsed");
+    tab.css({display: "", height: ""});
+    icon.removeClass("fa-caret-left").addClass("fa-caret-right");
+    //@ts-ignore
+    ui.sidebar._collapsed = false;
+    //@ts-ignore
+    Hooks.callAll("collapseSidebar", ui.sidebar, ui.sidebar._collapsed);
+  }
+
+  collapseSidebarWithoutAnimation() {
+    //@ts-ignore
+    if ( ui.sidebar._collapsed ) return;
+    const sidebar = ui.sidebar.element;
+    const tab = sidebar.find(".sidebar-tab.active");
+    const tabs = sidebar.find("#sidebar-tabs");
+    const icon = tabs.find("a.collapse i");
+    sidebar.css("height", "");
+    sidebar.addClass("collapsed");
+    tab.css("display", "");
+    icon.removeClass("fa-caret-right").addClass("fa-caret-left");
+    //@ts-ignore
+    ui.sidebar._collapsed = true;
+    //@ts-ignore
+    Hooks.callAll("collapseSidebar", ui.sidebar, ui.sidebar._collapsed);
+  }
+
+  toggleHud(show: boolean = false): void {
+    const isHidden = document.body.classList.contains("hide-hud");
+    if (isHidden || show) {
+      this.expandSidebarWithoutAnimation();
+      $(document.body).removeClass("hide-hud");
+    } else {
+      $(document.body).addClass("hide-hud");
+      this.collapseSidebarWithoutAnimation();
     }
   }
 
@@ -90,7 +135,7 @@ export class MobileUI extends Application {
   showMap(): void {
     const minimized = window.WindowManager.minimizeAll();
     if (!minimized && this.state == ViewState.Map) {
-      $(document.body).toggleClass("hide-hud");
+      this.toggleHud();
     }
     this.state = ViewState.Map;
     canvas.ready && canvas.app?.start();
@@ -100,7 +145,7 @@ export class MobileUI extends Application {
 
   showSidebar(): void {
     this.state = ViewState.App;
-    $(document.body).removeClass("hide-hud");
+    this.toggleHud(true);
     ui.sidebar?.expand();
     if (!isTabletMode()) window.WindowManager.minimizeAll();
 
@@ -164,21 +209,27 @@ export class MobileUI extends Application {
   }
 
   updateMode(): void {
-    this.element.find(".active:not(.toggle)").removeClass("active");
-    $(document.body).removeClass("mobile-app");
-    $(document.body).removeClass("mobile-map");
+    if (globalThis.MobileMode.enabled) {
+      this.element.find(".active:not(.toggle)").removeClass("active");
+      $(document.body).removeClass("mobile-app");
+      $(document.body).removeClass("mobile-map");
 
-    switch (this.state) {
-      case ViewState.Map:
-        this.element.find(".navigation-map").addClass("active");
-        $(document.body).addClass("mobile-map");
-        break;
-      case ViewState.App:
-        this.element.find(".navigation-sidebar").addClass("active");
-        $(document.body).addClass("mobile-app");
-        break;
-      default:
-        break;
+      switch (this.state) {
+        case ViewState.Map:
+          this.element.find(".navigation-map").addClass("active");
+          $(document.body).addClass("mobile-map");
+          this.collapseSidebarWithoutAnimation();
+          break;
+        case ViewState.App:
+          this.element.find(".navigation-sidebar").addClass("active");
+          $(document.body).addClass("mobile-app");
+          this.expandSidebarWithoutAnimation();
+          break;
+        default:
+          break;
+      }
+    } else {
+      this.expandSidebarWithoutAnimation();
     }
   }
 }
