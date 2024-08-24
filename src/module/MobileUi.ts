@@ -42,8 +42,10 @@ export class MobileUI extends Application {
   }
 
   _onShowWindow(): void {
-    this.toggleHud(true);
     $(document.body).addClass("windows-open");
+
+    if (!globalThis.MobileMode.enabled) return;
+    this.toggleHud(true);
 
     if (isTabletMode()) {
       this.showSidebar();
@@ -85,14 +87,14 @@ export class MobileUI extends Application {
 
   expandSidebarWithoutAnimation() {
     //@ts-ignore
-    if ( !ui.sidebar._collapsed ) return;
+    if (!ui.sidebar._collapsed) return;
     const sidebar = ui.sidebar.element;
     const tab = sidebar.find(".sidebar-tab.active");
     const tabs = sidebar.find("#sidebar-tabs");
     const icon = tabs.find("a.collapse i");
-    sidebar.css({width: "", height: ""});
+    sidebar.css({ width: "", height: "" });
     sidebar.removeClass("collapsed");
-    tab.css({display: "", height: ""});
+    tab.css({ display: "", height: "" });
     icon.removeClass("fa-caret-left").addClass("fa-caret-right");
     //@ts-ignore
     ui.sidebar._collapsed = false;
@@ -102,7 +104,7 @@ export class MobileUI extends Application {
 
   collapseSidebarWithoutAnimation() {
     //@ts-ignore
-    if ( ui.sidebar._collapsed ) return;
+    if (ui.sidebar._collapsed) return;
     const sidebar = ui.sidebar.element;
     const tab = sidebar.find(".sidebar-tab.active");
     const tabs = sidebar.find("#sidebar-tabs");
