@@ -22,6 +22,7 @@ const icons = {
   equipment: "fa-tshirt",
   feat: "fa-hand-rock",
   class: "fa-user",
+  deck: "fa-cards",
 };
 
 export class WindowMenu extends Application {
