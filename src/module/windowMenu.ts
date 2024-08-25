@@ -1,4 +1,4 @@
-import { Window } from "./windowManager";
+import { Window, WindowV2 } from "./windowManager";
 import type { MobileUI } from "./MobileUi.js";
 
 const icons = {
@@ -44,6 +44,9 @@ export class WindowMenu extends Application {
 
   // Attempt to discern the title and icon of the window
   winIcon(win: any): string {
+    if (win.options?.window?.icon) {
+      return win.options?.window?.icon;
+    }
     let windowType: string =
       win.icon ||
       win.tabName ||
@@ -57,7 +60,7 @@ export class WindowMenu extends Application {
     return icon;
   }
 
-  newWindow = (win: Window): JQuery<HTMLElement> => {
+  newWindow = (win: Window | WindowV2): JQuery<HTMLElement> => {
     const winIcon = this.winIcon(win.app);
     const windowButton = $(
       `<button class="window-select" title="${win.title}"><i class="fas ${winIcon}"></i> ${win.title}</button>`
@@ -79,11 +82,11 @@ export class WindowMenu extends Application {
     });
     return row;
   };
-  windowAdded(appId: number): void {
+  windowAdded(appId: number | string): void {
     this.list?.append(this.newWindow(window.WindowManager.windows[appId]));
     this.update();
   }
-  windowRemoved(appId: number): void {
+  windowRemoved(appId: number | string): void {
     this.list?.find(`li[data-id="${appId}"]`).remove();
     this.update();
   }

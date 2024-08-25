@@ -44,16 +44,56 @@ export class Window {
   }
 }
 
+function v2AppId(app: ApplicationV2): string {
+  return "v2_" + app.id;
+}
+
+export class WindowV2 {
+  readonly app: ApplicationV2;
+  #id: string;
+
+  constructor(app: ApplicationV2) {
+    this.app = app;
+    this.#id = v2AppId(app);
+  }
+
+  get title(): string {
+    return this.app.title;
+  }
+  get id(): string {
+    return this.#id;
+  }
+
+  get minimized(): boolean {
+    return this.app.minimized;
+  }
+
+  show(): void {
+    if (this.minimized) {
+      this.app.maximize();
+    }
+    this.app.bringToFront();
+  }
+  minimize(): void {
+    this.app.minimize();
+  }
+  close(): void {
+    this.app.close();
+  }
+}
+
 export class WindowManager {
   // All windows
-  windows: { [id: string]: Window } = {};
+  windows: { [id: string]: Window | WindowV2 } = {};
   version = "1.0";
   windowChangeHandler: ProxyHandler<any> = {
     set: (target, property: string, value) => {
       target[property] = value;
       this.windowAdded(parseInt(property as string));
       // Hook for new window being rendered
-      Hooks.once("render" + value.constructor.name, this.newWindowRendered);
+      Hooks.once("render" + value.constructor.name, (app) =>
+        this.newWindowRendered(app.appId)
+      );
       return true;
     },
     deleteProperty: (target, property) => {
@@ -65,6 +105,13 @@ export class WindowManager {
     },
   };
   constructor() {
+    this.augmentAppV1();
+    this.augmentAppV2();
+    console.info("Window Manager | Initiated");
+    Hooks.call("WindowManager:Init");
+  }
+
+  augmentAppV1() {
     ui.windows = new Proxy(ui.windows, this.windowChangeHandler);
     // Override Application bringToTop
     const old = Application.prototype.bringToTop;
@@ -91,19 +138,79 @@ export class WindowManager {
       r.then(() => windowMaximized(this.appId));
       return r;
     };
-
-    console.info("Window Manager | Initiated");
-    Hooks.call("WindowManager:Init");
   }
 
-  newWindowRendered(app: Application): void {
-    Hooks.call("WindowManager:NewRendered", app.appId);
+  augmentAppV2() {
+    Hooks.on("renderApplicationV2", (app: ApplicationV2) => {
+      if (
+        app.options?.window?.frame === false ||
+        app.options?.window?.minimizable === false
+      ) {
+        return;
+      }
+      const newWindow = this.windowV2Added(app);
+      app.element?.classList.add("wm-managed");
+      newWindow && this.newWindowRendered(newWindow.id);
+    });
+
+    //@ts-ignore
+    const AppV2 = foundry.applications.api.ApplicationV2;
+
+    // Override Application bringToTop
+    const old = AppV2.prototype.bringToFront;
+    const windowBroughtToTop = this.windowBroughtToTop.bind(this);
+    AppV2.prototype.bringToFront = function () {
+      old.call(this);
+      windowBroughtToTop(v2AppId(this));
+    };
+
+    // Override Application minimize
+    const windowMinimized = this.windowMinimized.bind(this);
+    const oldMinimize = AppV2.prototype.minimize;
+    AppV2.prototype.minimize = function () {
+      const r = oldMinimize.call(this);
+      r.then(() => windowMinimized(v2AppId(this)));
+      return r;
+    };
+
+    // Override Application maximize
+    const windowMaximized = this.windowMaximized.bind(this);
+    const oldMaximize = AppV2.prototype.maximize;
+    AppV2.prototype.maximize = function () {
+      const r = oldMaximize.call(this);
+      r.then(() => windowMaximized(v2AppId(this)));
+      return r;
+    };
+    // Override Application close
+    const oldClose = AppV2.prototype.close;
+    const windowRemoved = this.windowRemoved.bind(this);
+    AppV2.prototype.close = function () {
+      oldClose.call(this);
+      windowRemoved(v2AppId(this));
+    };
+  }
+
+  newWindowRendered(appId: number | string): void {
+    Hooks.call("WindowManager:WindowRendered", appId);
   }
   windowAdded(appId: number): void {
     if (this.windows[appId]) return;
     this.windows[appId] = new Window(ui.windows[appId]);
     Hooks.call("WindowManager:Added", appId);
   }
+
+  windowV2Added(app: ApplicationV2) {
+    const appId = v2AppId(app);
+    if (this.windows[appId]?.app === app) return;
+    const previous = this.windows[appId];
+    this.windows[appId] = new WindowV2(app);
+    if (previous) {
+      Hooks.call("WindowManager:Removed", appId);
+    }
+    Hooks.call("WindowManager:Added", appId);
+    return this.windows[appId];
+  }
+
   windowRemoved(appId: number): void {
     delete this.windows[appId];
     Hooks.call("WindowManager:Removed", appId);
@@ -133,7 +240,7 @@ export class WindowManager {
       didMinimize = didMinimize || !window.minimized;
       window.minimize();
       return didMinimize;
-    }, false as boolean);
+    }, false);
   }
 
   closeAll(): boolean {

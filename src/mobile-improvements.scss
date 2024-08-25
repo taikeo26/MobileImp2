@@ -426,6 +426,32 @@ body.mobile-improvements {
     flex-grow: 9999;
   }
 
+  .application.wm-managed {
+    height: var(--viewHeight) !important;
+    left: 0 !important;
+    top: 0 !important;
+    margin: 0;
+    min-height: var(--viewHeight) !important;
+    overflow-x: auto;
+    width: calc(100% - 300px) !important;
+    min-width: calc(100% - 300px) !important;
+    box-shadow: none;
+    transition: transform 100ms ease;
+    border-radius: 0;
+
+    &.minimizing,
+    &.minimized {
+      transform: translateY(calc(100% + 50px));
+    }
+
+    @media screen and (max-width: 900px) {
+      --zoomValue: 1;
+      width: 100% !important;
+      min-width: 100% !important;
+      overflow: hidden;
+    }
+  }
+
   .window-app {
     height: var(--viewHeight) !important;
     left: 0 !important;

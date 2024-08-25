@@ -36,7 +36,7 @@ export class MobileUI extends Application {
     this.mobileMenu = new MobileMenu(this);
 
     // Ensure HUD shows on opening a new window
-    Hooks.on("WindowManager:NewRendered", () => this._onShowWindow());
+    Hooks.on("WindowManager:WindowRendered", () => this._onShowWindow());
     Hooks.on("WindowManager:BroughtToTop", () => this._onShowWindow());
     Hooks.on("WindowManager:NoneVisible", () => this._onHideAllWindows());
   }
