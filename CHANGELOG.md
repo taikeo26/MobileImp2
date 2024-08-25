@@ -1,3 +1,20 @@
+## [1.3.0] - 2024-08-25
+
+### Added
+
+- Zoom out feature for compatibility with sheets that don't scale well - from @MrAioros
+- Initial support for ApplicationV2 windows
+
+### Changed
+
+- Collapse/expand sidebar when toggling, improves integration with other modules
+- Improved old window icon selection in the windows menu
+
+### Fixed
+
+- Fixed action bar overfowing on wider screens
+- Fix for the send button in the chat log
+
 ## [1.2.0] - 2024-07-27
 
 Resurrecting Mobile Improvements for modern Foundry!
