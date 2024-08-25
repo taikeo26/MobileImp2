@@ -141,6 +141,10 @@ export class WindowManager {
   }
 
   augmentAppV2() {
+    //@ts-ignore
+    if (!globalThis.foundry?.applications?.api?.ApplicationV2) {
+      return;
+    }
     Hooks.on("renderApplicationV2", (app: ApplicationV2) => {
       if (
         app.options?.window?.frame === false ||
