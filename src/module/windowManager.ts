@@ -100,6 +100,7 @@ export class WindowManager {
     Hooks.call("WindowManager:NewRendered", app.appId);
   }
   windowAdded(appId: number): void {
+    if (this.windows[appId]) return;
     this.windows[appId] = new Window(ui.windows[appId]);
     Hooks.call("WindowManager:Added", appId);
   }

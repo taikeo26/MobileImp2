@@ -34,7 +34,7 @@ export class WindowMenu extends Application {
       popOut: false,
     });
     this.nav = nav;
-    Hooks.on("WindowManager:NewRendered", this.windowAdded.bind(this));
+    Hooks.on("WindowManager:Added", this.windowAdded.bind(this));
     Hooks.on("WindowManager:Removed", this.windowRemoved.bind(this));
   }
 
