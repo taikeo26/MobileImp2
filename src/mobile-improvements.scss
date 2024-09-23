@@ -5,7 +5,8 @@
 :root {
   --navigationHeight: 35px;
   --vh: 1vh;
-  --viewHeight: calc(calc(var(--vh) * 100) - var(--navigationHeight));
+  --externalTaskbarHeight: 0px;
+  --viewHeight: calc(calc(var(--vh) * 100) - var(--navigationHeight) - var(--externalTaskbarHeight));
   --miDarkBackground: #333;
   --miDarkBackgroundTransparent: #333333ee;
 }
@@ -34,8 +35,15 @@ html.mobile-improvements {
 }
 
 body.mobile-improvements {
-  height: calc(var(--vh) * 100);
+  height: calc(var(--vh) * 100 - var(--externalTaskbarHeight)) !important;
   position: relative;
+  &.mi-window-controls-persistent {
+    --externalTaskbarHeight: 40px;
+    --viewHeight: calc(calc(var(--vh) * 100) - var(--navigationHeight) - 40px);
+    &.mi-window-controls-persistent-bottom {
+      top: 0 !important;
+    }
+  }
 }
 
 #chat-form--send {
@@ -293,12 +301,8 @@ body.mobile-improvements {
 .app.filepicker {
   form {
     max-height: 100%;
-    display: flex;
-    flex-direction: column;
   }
   .filepicker-body {
-    display: flex;
-    flex-direction: column;
     overflow: hidden;
     flex-grow: 1;
   }
@@ -452,7 +456,8 @@ body.mobile-improvements {
     }
   }
 
-  .window-app {
+  &:not(.mi-window-controls) .window-app,
+  &.mi-window-controls .window-app:not(.minimized) {
     height: var(--viewHeight) !important;
     left: 0 !important;
     top: 0 !important;
@@ -505,7 +510,8 @@ body.mobile-improvements {
     }
   }
 
-  .window-app .window-content {
+  &:not(.mi-window-controls) .window-app .window-content,
+  &.mi-window-controls .window-app:not(.minimized) .window-content {
     display: flex !important;
   }
 
@@ -513,7 +519,7 @@ body.mobile-improvements {
     display: none;
   }
 
-  .minimized {
+  &:not(.mi-window-controls) .minimized {
     transform: translateY(calc(100% + 50px));
   }
 
@@ -607,6 +613,10 @@ body.mobile-improvements {
   transition: transform ease-out 100ms;
   visibility: hidden;
   box-shadow: 0 0 15px #000c;
+  .mi-window-controls-persistent-bottom & {
+    bottom: calc(var(--navigationHeight) + var(--externalTaskbarHeight));
+    transform: translateY(calc(100% + 60px + var(--externalTaskbarHeight)));
+  }
 }
 
 .mobile-improvements {

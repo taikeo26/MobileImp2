@@ -41,6 +41,9 @@ export class WindowMenu extends Application {
 
   activateListeners(html: JQuery<HTMLElement>): void {
     this.list = html.find(".window-list");
+    for (let w in ui.windows) {
+      this.windowAdded.call(this, w);
+    }
   }
 
   // Attempt to discern the title and icon of the window

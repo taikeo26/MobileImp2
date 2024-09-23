@@ -1,0 +1,158 @@
+/* ------------------------------------ */
+/*             gurps system             */
+/* ------------------------------------ */
+
+.mobile-improvements.system-gurps {
+    @media screen and (max-width: 1100px) {
+        #modttt {
+            left: 0 !important;
+            max-width: 100%;
+            max-height: calc(100% - 90px);
+            overflow: auto;
+            width: 100%;
+        }
+    }
+    @media screen and (max-width: 700px) {
+        .modifier-row {
+            font-size: 8pt;
+            .glinkmodminus {
+                text-wrap: nowrap;
+            }
+        }
+        #modttt #modtooltip {
+            grid-template-columns: unset;
+            grid-template-rows: 2fr 4fr;
+        }
+        #modttt #modtooltipbucket {
+            grid-template-rows: unset;
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+        #modttt #modtooltipbucket div {
+            grid-row: unset;
+        }
+    }
+    @media screen and (max-width: 800px) {
+        .modifier-row .glinkmodminus {
+            text-wrap: nowrap;
+        }
+        #bucket-app {
+            position: absolute;
+            right: 20px;
+            bottom: 0;
+        }
+    }
+}
+
+/* ------------------------------------ */
+/*               Sheets                 */
+/* ------------------------------------ */
+
+.mobile-improvements {
+
+    /*** Full and combat sheets ***/
+    @media screen and (max-width: 700px) {
+        .gurps.sheet.actor {
+            z-index: 1000 !important;
+            #stats {
+                grid-template:
+                    'attributes hp-fp'
+                    'attributes condition'
+                    'attributes condition'
+                    'location encumbrance'
+                    'location qnotes'
+                    'location lifting'
+            }
+        }
+    }
+    @media screen and (max-width: 600px) {
+        .gurps.sheet.actor {
+            #personal {
+                grid-template:
+                    'portrait identity identity points'
+                    'portrait miscellaneous miscellaneous points'
+                    'description description description description';
+            }
+            #combat-grid {
+                grid-template:
+                    'combat-attrs combat-attrs location'
+                    'combat-attrs combat-attrs location'
+                    'combat-hitfat combat-hitfat location'
+                    'encumbrance encumbrance encumbrance'
+                    'condition condition condition'
+                    'condition condition condition';
+            }
+        }
+        .navigate-container {
+            flex-wrap: wrap;
+        }
+    }
+    @media screen and (max-width: 400px) {
+        .gurps.sheet.actor #combat-attrs .label {
+            white-space: normal;
+        }
+    }
+
+    /*** Simple sheet **/
+    .gurps.sheet.actor .simple_form {
+        .simple_Portrait {
+            overflow: hidden;
+        }
+    }
+    @media screen and (max-width: 680px) {
+        .gurps.sheet.actor .simple_form {
+            .simple_container {
+                grid-template-areas:
+                    'ST ST ST-desc Portrait Portrait'
+                    'DX DX DX-desc Portrait Portrait'
+                    'IQ IQ IQ-desc Portrait Portrait'
+                    'HT HT HT-desc Portrait Portrait'
+                    'Shield Body Heart Notes Notes'
+                    'Shield Body Heart Notes Notes'
+                    'Shield Body Heart Notes Notes'
+                    'Defend Armor HP Notes Notes'
+                    'Attacks Attacks Attacks Skills Skills'
+                    'Attacks Attacks Attacks Skills Skills'
+                    'Attacks Attacks Attacks Skills Skills'
+                    'Attacks Attacks Attacks Skills Skills'
+                    'Attacks Attacks Attacks Skills Skills'
+                    'Eqt Eqt Eqt Ads Ads'
+                    'Eqt Eqt Eqt Ads Ads'
+                    'Eqt Eqt Eqt Ads Ads'
+                    'Eqt Eqt Eqt Ads Ads';
+            }
+            .simple_ST-desc, .simple_DX-desc, .simple_IQ-desc, .simple_HT-desc {
+                > label:not(.rollable) {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    /*** NPC/mini sheet **/
+    @media screen and (max-width: 800px) {
+        &.system-gurps .sheet.actor .npc-sheet {
+            .npc-sheet-grid-container-ci {
+                grid-template-columns: 2fr 3fr 5fr;
+            }
+        }
+    }
+
+    /*** Tabbed sheet ***/
+    .gurps.sheet.actor .gurps-sheet-tabs {
+        height: auto;
+    }
+
+    /*** Reduced mode ***/
+    @media screen and (max-width: 580px) {
+        .gurps.sheet.actor .reducedMode #stats {
+            grid-template:
+                "attributes attributes"
+                "attributes attributes"
+                "attributes attributes"
+                "hp-fp hp-fp"
+                "hp-fp hp-fp"
+                "hp-fp hp-fp";
+        }
+    }
+
+}

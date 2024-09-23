@@ -30,12 +30,20 @@ function setMeta(maxScale="1.0") {
 abstract class MobileMode {
   static enabled = false;
   static navigation: MobileUI;
+  static compatibilityClasses: string[] = [];
+
+  static updateCompatibilityClasses() {
+    MobileMode.compatibilityClasses.forEach(c => {
+      document.body.classList.toggle(c, MobileMode.enabled);
+    });
+  }
 
   static enter() {
     if (MobileMode.enabled) return;
     MobileMode.enabled = true;
     document.body.classList.add("mobile-improvements");
     MobileMode.navigation?.updateMode();
+    MobileMode.updateCompatibilityClasses();
     setMeta();
     ui.nav?.collapse();
     viewHeight();
@@ -47,6 +55,7 @@ abstract class MobileMode {
     MobileMode.enabled = false;
     document.body.classList.remove("mobile-improvements");
     MobileMode.navigation.updateMode();
+    MobileMode.updateCompatibilityClasses();
     Hooks.call("mobile-improvements:leave");
   }
 
@@ -121,7 +130,28 @@ Hooks.once("init", async function () {
   await preloadTemplates();
 });
 
+Hooks.on("drawPrimaryCanvasGroup", () => {
+  //@ts-ignore
+  const sceneBackgroundTexture = canvas.app?.stage.rendered.environment.primary.background.texture;
+  const textureSize = { width: sceneBackgroundTexture.width, height: sceneBackgroundTexture.height };
+  const maxTextureSize = canvas.app?.renderer.gl.getParameter(canvas.app?.renderer.gl.MAX_TEXTURE_SIZE);
+  if (maxTextureSize && Math.max(textureSize.width, textureSize.height) > maxTextureSize) {
+    ui.notifications.error(game.i18n.format("MOBILEIMPROVEMENTS.MaxTextureSizeExceeded", {width: textureSize.width, height: textureSize.height, maxTextureSize})); 
+  }
+});
+
 Hooks.on("ready", () => {
+  // Compatibility with Window Controls
+  if (game.modules?.get("window-controls")?.active) {
+    MobileMode.compatibilityClasses.push("mi-window-controls");
+    const organizedMinimize = game.settings.get("window-controls", "organizedMinimize");
+    if (organizedMinimize == "persistentTop") {
+      MobileMode.compatibilityClasses.push("mi-window-controls-persistent", "mi-window-controls-persistent-top");
+    } else if (organizedMinimize == "persistentBottom") {
+      MobileMode.compatibilityClasses.push("mi-window-controls-persistent", "mi-window-controls-persistent-bottom");
+    }
+    MobileMode.updateCompatibilityClasses();
+  }
   MobileMode.navigation.render(true);
   showToggleModeButton(getSetting(settings.SHOW_MOBILE_TOGGLE));
 });

@@ -1,0 +1,124 @@
+/* ------------------------------------ */
+/*             sfrpg system             */
+/* ------------------------------------ */
+
+/* ------------------------------------ */
+/*               Sheets                 */
+/* ------------------------------------ */
+
+.mobile-improvements {
+
+    @media screen and (max-width: 700px) {
+        .sfrpg.sheet.actor {
+            .sheet-header {
+                .attributes {
+                    .attribute-name {
+                        margin: 0;
+                        font-size: 2vw;
+                    }
+                    .attribute-value span {
+                        font-size: 3.5vw !important;
+                    }
+                    .attribute-value-max {
+                        font-size: 3.5vw !important;
+                    }
+                }
+                .summary li {
+                    font-size: 3vw;
+                }
+                .image-container {
+                    flex: 1 !important;
+                }
+                .header-details {
+                    flex: 5;
+                    .charname input {
+                        font-size: 5vw;
+                    }
+                    .charlevel {
+                        flex: 1 !important;
+                        .level label {
+                            font-size: 5vw;
+                        }
+                        .experience input {
+                            width: 50%;
+                        }
+                    }
+                    .summary-row1, .summary-row2 {
+                        font-size: 3vw;
+                    }
+                }
+            }
+            .modifiers-body {
+                .stacked.conditions > * {
+                    flex: unset !important;
+                    width: 120px;
+                }
+                .crew-list .crew .crew-name.modifier-name,
+                .crew-list .crew .item-name.modifier-name,
+                .crew-list .item .crew-name.modifier-name,
+                .crew-list .item .item-name.modifier-name,
+                .inventory-list .crew .crew-name.modifier-name,
+                .inventory-list .crew .item-name.modifier-name,
+                .inventory-list .item .crew-name.modifier-name,
+                .inventory-list .item .item-name.modifier-name,
+                .vehicle-system-list .crew .crew-name.modifier-name,
+                .vehicle-system-list .crew .item-name.modifier-name,
+                .vehicle-system-list .item .crew-name.modifier-name,
+                .vehicle-system-list .item .item-name.modifier-name {
+                    flex: 3;
+                }
+
+                .crew-list .crew-detial,
+                .crew-list .item-detail,
+                .inventory-list .crew-detial,
+                .inventory-list .item-detail,
+                .vehicle-system-list .crew-detial,
+                .vehicle-system-list .item-detail {
+                    overflow: hidden;
+                }
+
+                .crew-list .crew-detial.modifier-type,
+                .crew-list .item-detail.modifier-type,
+                .inventory-list .crew-detial.modifier-type,
+                .inventory-list .item-detail.modifier-type,
+                .vehicle-system-list .crew-detial.modifier-type,
+                .vehicle-system-list .item-detail.modifier-type {
+                    flex: 2;
+                }
+
+                .crew-list .crew-detial.modifier-effect-type,
+                .crew-list .item-detail.modifier-effect-type,
+                .inventory-list .crew-detial.modifier-effect-type,
+                .inventory-list .item-detail.modifier-effect-type,
+                .vehicle-system-list .crew-detial.modifier-effect-type,
+                .vehicle-system-list .item-detail.modifier-effect-type {
+                    flex: 2;
+                }
+
+                .crew-list .crew-detial.modifier-value-affected,
+                .crew-list .item-detail.modifier-value-affected,
+                .inventory-list .crew-detial.modifier-value-affected,
+                .inventory-list .item-detail.modifier-value-affected,
+                .vehicle-system-list .crew-detial.modifier-value-affected,
+                .vehicle-system-list .item-detail.modifier-value-affected {
+                    flex: 2;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .sfrpg.sheet.actor ul.skills-list {
+            li.skills-header > * {
+                overflow: hidden;
+            }
+            li.skill h4.skill-name {
+                flex: 0 0 40%;
+            }
+        }
+        .sfrpg.sheet.actor .traits label {
+            flex: 3;
+        }
+    }
+
+}
