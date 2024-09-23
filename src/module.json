@@ -18,7 +18,7 @@
       }
     ]
   },
-  "styles": ["./mobile-improvements.css", "./dnd5e.css"],
+  "styles": ["./mobile-improvements.css", "./dnd5e.css", "./pf2e.css", "./gurps.css", "./sfrpg.css"],
   "packs": [],
   "languages": [
     {
@@ -29,7 +29,7 @@
   ],
   "compatibility": {
     "minimum": "9.238",
-    "verified": "12.330"
+    "verified": "12.331"
   },
   "url": "",
   "manifest": "",

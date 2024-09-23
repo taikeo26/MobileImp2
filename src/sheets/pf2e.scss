@@ -1,0 +1,100 @@
+/* ------------------------------------ */
+/*             pf2e system             */
+/* ------------------------------------ */
+
+/* ------------------------------------ */
+/*               Sheets                 */
+/* ------------------------------------ */
+
+.mobile-improvements {
+    @media screen and (max-width: 700px) {
+        &.system-pf2e .sheet.actor.character {
+            .window-content .sheet-body .sheet-content > .tab.active.character .subsection.details .abcd {
+                grid-template-columns: 100%;
+                .traits {
+                    grid-column: unset;
+                }
+            }
+            .window-content form nav.sheet-navigation {
+                flex-wrap: wrap;
+                height: auto;
+            }
+            .window-content .sheet-body .sheet-content > .tab.active.character .subsection.attributes ul {
+                grid-template-columns: repeat(auto-fill, 60px);
+            }
+        }
+    }
+    @media screen and (max-width: 580px) {
+        &.system-pf2e .sheet.actor.character .window-content form.crb-style {
+            grid:
+                "sidebar" 35%
+                "header" 60px
+                "nav" min-content
+                "content";
+            aside {
+                margin-left: 0;
+                img.logo {
+                    display: none;
+                }
+                .sidebar {
+                    margin-bottom: 0;
+                    box-shadow: inset 0px -4px 10px 0px #0000008c;
+                }
+            }
+            aside, header.char-header {
+                background: url(../../systems/pf2e/assets/sheet/header.webp);
+            }
+        }
+
+        &.system-pf2e .sheet.actor {
+            &.npc .sheet-body .top-sections {
+                display: block;
+            }
+            &.npc nav.sheet-tabs > [data-tab] {
+                padding: 0;
+            }
+            &.npc form > .npc-body > header .name {
+                flex-wrap: wrap;
+            }
+            &.npc form > .npc-body > header .name .name-value {
+                flex: 1 0 80%;
+            }
+
+            section.window-content .item-image {
+                display: none;
+            }
+        }
+    }
+    @media screen and (max-width: 480px) {
+        .pf2e.sheet.actor:not(.simple) form {
+            flex-direction: column;
+            .sidebar {
+                flex: 1 0 30%;
+                box-shadow: inset 0px -5px 4px rgb(0 0 0 / 25%);
+            }
+        }
+        .pf2e.sheet.actor:not(.simple) section.window-content .image-container {
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            img {
+                max-height: 100%;
+            }
+        }
+
+        &.system-pf2e .sheet.actor .window-content {
+            .inventory {
+                .inventory-list .item-controls,
+                ul.items .item-controls {
+                    flex-basis: unset;
+                }
+            }
+            .crb-style .sheet-body .sheet-content > .tab.active.proficiencies ul.proficiencies-list {
+                grid-template-columns: 100%;
+            }
+        }
+
+        
+    }
+
+}
