@@ -186,11 +186,12 @@ export class WindowManager {
       return r;
     };
     // Override Application close
-    const oldClose = AppV2.prototype.close;
     const windowRemoved = this.windowRemoved.bind(this);
-    AppV2.prototype.close = function () {
-      oldClose.call(this);
-      windowRemoved(v2AppId(this));
+    const oldClose = AppV2.prototype.close;
+    AppV2.prototype.close = function (...args) {
+      const r = oldClose.call(this, ...args);
+      r.then(() => windowRemoved(v2AppId(this)));
+      return r;
     };
   }
 
