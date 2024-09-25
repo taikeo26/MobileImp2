@@ -3,6 +3,8 @@
   "MOBILEIMPROVEMENTS.SettingsPauseRenderingHint": "Pauses rendering of the map while in the \"App\" view",
   "MOBILEIMPROVEMENTS.SettingsShowToggle": "Show Mobile Mode toggle",
   "MOBILEIMPROVEMENTS.SettingsShowToggleHint": "Shows a toggle button in the top left for toggling mobile mode manually",
+  "MOBILEIMPROVEMENTS.SettingsShowChatOnRoll": "Show chat on users own dice roll",
+  "MOBILEIMPROVEMENTS.SettingsShowChatOnRollHint": "Shows the chat window for a user when they roll dice, to show the results",
   "MOBILEIMPROVEMENTS.NavigationScene": "Scene",
   "MOBILEIMPROVEMENTS.NavigationApp": "App",
   "MOBILEIMPROVEMENTS.NavigationActions": "Actions",

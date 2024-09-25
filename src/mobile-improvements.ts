@@ -223,7 +223,13 @@ Hooks.once("renderPlayerList", () =>
 );
 
 Hooks.on("createChatMessage", (message: ChatMessage) => {
-  if (!MobileMode.enabled || !message.isAuthor) return;
+  if (
+    !MobileMode.enabled ||
+    !message.isAuthor ||
+    !getSetting(settings.SHOW_CHAT_ON_ROLL)
+  ) {
+    return;
+  }
 
   const shouldBloop =
     MobileMode.navigation.state === ViewState.Map ||

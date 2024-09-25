@@ -4,6 +4,7 @@ export enum settings {
   // In config
   SIDEBAR_PAUSES_RENDER = "sideBarPausesRender",
   SHOW_MOBILE_TOGGLE = "showMobileToggle",
+  SHOW_CHAT_ON_ROLL = "showChatOnRoll",
   // Not in config
   SHOW_PLAYER_LIST = "showPlayerList",
   PIN_MOBILE_MODE = "pinMobileMode",
@@ -28,7 +29,15 @@ const moduleSettings = [
     hint: "MOBILEIMPROVEMENTS.SettingsShowToggleHint",
     type: Boolean,
     default: false,
-    scope: "world"
+    scope: "world",
+  },
+  {
+    setting: settings.SHOW_CHAT_ON_ROLL,
+    name: "MOBILEIMPROVEMENTS.SettingsShowChatOnRoll",
+    hint: "MOBILEIMPROVEMENTS.SettingsShowChatOnRollHint",
+    type: Boolean,
+    default: true,
+    scope: "world",
   },
   {
     setting: settings.SHOW_PLAYER_LIST,
