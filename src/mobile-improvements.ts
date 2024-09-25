@@ -17,7 +17,7 @@ declare global {
   }
 }
 
-function setMeta(maxScale="1.0") {
+function setMeta(maxScale = "1.0") {
   const meta = document.querySelector(`meta[name="viewport"]`);
   if (meta) {
     meta.setAttribute(
@@ -33,7 +33,7 @@ abstract class MobileMode {
   static compatibilityClasses: string[] = [];
 
   static updateCompatibilityClasses() {
-    MobileMode.compatibilityClasses.forEach(c => {
+    MobileMode.compatibilityClasses.forEach((c) => {
       document.body.classList.toggle(c, MobileMode.enabled);
     });
   }
@@ -131,12 +131,27 @@ Hooks.once("init", async function () {
 });
 
 Hooks.on("drawPrimaryCanvasGroup", () => {
-  //@ts-ignore
-  const sceneBackgroundTexture = canvas.app?.stage.rendered.environment.primary.background.texture;
-  const textureSize = { width: sceneBackgroundTexture.width, height: sceneBackgroundTexture.height };
-  const maxTextureSize = canvas.app?.renderer.gl.getParameter(canvas.app?.renderer.gl.MAX_TEXTURE_SIZE);
-  if (maxTextureSize && Math.max(textureSize.width, textureSize.height) > maxTextureSize) {
-    ui.notifications.error(game.i18n.format("MOBILEIMPROVEMENTS.MaxTextureSizeExceeded", {width: textureSize.width, height: textureSize.height, maxTextureSize})); 
+  const sceneBackgroundTexture =
+    //@ts-ignore
+    canvas.app?.stage.rendered.environment.primary.background.texture;
+  const textureSize = {
+    width: sceneBackgroundTexture.width,
+    height: sceneBackgroundTexture.height,
+  };
+  const maxTextureSize = canvas.app?.renderer.gl.getParameter(
+    canvas.app?.renderer.gl.MAX_TEXTURE_SIZE
+  );
+  if (
+    maxTextureSize &&
+    Math.max(textureSize.width, textureSize.height) > maxTextureSize
+  ) {
+    ui.notifications.error(
+      game.i18n.format("MOBILEIMPROVEMENTS.MaxTextureSizeExceeded", {
+        width: textureSize.width,
+        height: textureSize.height,
+        maxTextureSize,
+      })
+    );
   }
 });
 
@@ -144,11 +159,20 @@ Hooks.on("ready", () => {
   // Compatibility with Window Controls
   if (game.modules?.get("window-controls")?.active) {
     MobileMode.compatibilityClasses.push("mi-window-controls");
-    const organizedMinimize = game.settings.get("window-controls", "organizedMinimize");
+    const organizedMinimize = game.settings.get(
+      "window-controls",
+      "organizedMinimize"
+    );
     if (organizedMinimize == "persistentTop") {
-      MobileMode.compatibilityClasses.push("mi-window-controls-persistent", "mi-window-controls-persistent-top");
+      MobileMode.compatibilityClasses.push(
+        "mi-window-controls-persistent",
+        "mi-window-controls-persistent-top"
+      );
     } else if (organizedMinimize == "persistentBottom") {
-      MobileMode.compatibilityClasses.push("mi-window-controls-persistent", "mi-window-controls-persistent-bottom");
+      MobileMode.compatibilityClasses.push(
+        "mi-window-controls-persistent",
+        "mi-window-controls-persistent-bottom"
+      );
     }
     MobileMode.updateCompatibilityClasses();
   }
@@ -229,31 +253,48 @@ function addWindowZoomControlButton(app, buttons) {
       icon: "fa-solid fa-magnifying-glass-minus",
       onclick: () => {
         const html = $(app.element);
-        const currentZoom = getComputedStyle(html.get(0)).getPropertyValue("--zoomValue");
+        const currentZoom = getComputedStyle(html.get(0)).getPropertyValue(
+          "--zoomValue"
+        );
         if (html.find(".window-zoom-slider").length > 0) {
           html.find(".window-zoom-slider").remove();
         } else {
-          const zoomTool = $("<div>").addClass("flexrow window-zoom-slider")
+          const zoomTool = $("<div>")
+            .addClass("flexrow window-zoom-slider")
             .insertAfter(html.find(".window-header"));
-          const zoomSlider = $("<input>").attr("type", "range")
-            .attr("min", 0.5).attr("max", 1).attr("step", 0.1).val(currentZoom)
-            .on("input", function() {
+          const zoomSlider = $("<input>")
+            .attr("type", "range")
+            .attr("min", 0.5)
+            .attr("max", 1)
+            .attr("step", 0.1)
+            .val(currentZoom)
+            .on("input", function () {
               const newZoomValue = $(this).val() as number;
               html.get(0).style.setProperty("--zoomValue", newZoomValue);
               setMeta(newZoomValue < 1 ? "2.0" : "1.0");
             })
-            .on("change", function() {
-              const orderedClasses = [...html.get(0).classList].filter(c => !["app", "window-app"].includes(c)).sort().join(" ");
-              setSetting(settings.WINDOWS_ZOOM_VALUES, foundry.utils.mergeObject(getSetting(settings.WINDOWS_ZOOM_VALUES), {[orderedClasses]: $(this).val()}));
+            .on("change", function () {
+              const orderedClasses = [...html.get(0).classList]
+                .filter((c) => !["app", "window-app"].includes(c))
+                .sort()
+                .join(" ");
+              setSetting(
+                settings.WINDOWS_ZOOM_VALUES,
+                foundry.utils.mergeObject(
+                  getSetting(settings.WINDOWS_ZOOM_VALUES),
+                  { [orderedClasses]: $(this).val() }
+                )
+              );
             })
             .appendTo(zoomTool);
-          const zoomHide = $("<i>").addClass("toggle fas fa-caret-up")
-            .on("click", function() {
+          const zoomHide = $("<i>")
+            .addClass("toggle fas fa-caret-up")
+            .on("click", function () {
               $(this).closest(".window-zoom-slider").remove();
             })
             .appendTo(zoomTool);
         }
-      }
+      },
     });
   }
 }
@@ -268,14 +309,18 @@ Hooks.on("WindowManager:Removed", onMainWindowChanged);
 function setMetaForWindow(html) {
   if (MobileMode.enabled) {
     const elem = html.get(0);
-    const isZoomed = elem && parseFloat(getComputedStyle(elem).getPropertyValue("--zoomValue")) < 1;
+    const isZoomed =
+      elem &&
+      parseFloat(getComputedStyle(elem).getPropertyValue("--zoomValue")) < 1;
     setMeta(isZoomed ? "2.0" : "1.0");
   }
 }
 
 function onMainWindowChanged() {
   if (MobileMode.enabled) {
-    const currentWindow = Object.values(windowMgr.getManager().windows).find(w => !w.minimized);
+    const currentWindow = Object.values(windowMgr.getManager().windows).find(
+      (w) => !w.minimized
+    );
     if (currentWindow) {
       setMetaForWindow(currentWindow.app.element);
     } else {
@@ -287,8 +332,16 @@ function onMainWindowChanged() {
 function setWindowZoomValueFromStorage(app, html) {
   if (MobileMode.enabled) {
     const settingObjectValue = getSetting(settings.WINDOWS_ZOOM_VALUES);
-    const orderedClasses = [...html.get(0).classList].filter(c => !["app", "window-app"].includes(c)).sort().join(" ");
-    html.get(0).style.setProperty("--zoomValue", settingObjectValue[orderedClasses] || 1);
+    const orderedClasses = [...html.get(0).classList]
+      .filter((c) => !["app", "window-app"].includes(c))
+      .sort()
+      .join(" ");
+    html
+      .get(0)
+      .style.setProperty(
+        "--zoomValue",
+        settingObjectValue[orderedClasses] || 1
+      );
   }
 }
 

@@ -199,7 +199,13 @@ export class WindowManager {
     Hooks.call("WindowManager:WindowRendered", appId);
   }
   windowAdded(appId: number): void {
-    if (this.windows[appId] || ui.windows[appId].constructor.name.toLowerCase().includes("windowcontrols")) return;
+    if (
+      this.windows[appId] ||
+      ui.windows[appId].constructor.name
+        .toLowerCase()
+        .includes("windowcontrols")
+    )
+      return;
     this.windows[appId] = new Window(ui.windows[appId]);
     Hooks.call("WindowManager:Added", appId);
   }

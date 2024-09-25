@@ -8,7 +8,7 @@ export class TouchInput {
   cancelled = false;
   tapMaxTime = 400;
   tapStart = -1;
-  tapStartPos = {x: 0, y: 0};
+  tapStartPos = { x: 0, y: 0 };
   touches = 0;
 
   getTarget(evt: PIXI.InteractionEvent): PlaceableObject | null {
@@ -34,7 +34,10 @@ export class TouchInput {
     });
 
     canvas.stage?.on("touchmove", (evt) => {
-      if (evt.client.x != this.tapStartPos.x || evt.client.y != this.tapStartPos.y) {
+      if (
+        evt.client.x != this.tapStartPos.x ||
+        evt.client.y != this.tapStartPos.y
+      ) {
         this.cancelled = true;
       }
     });
@@ -44,7 +47,7 @@ export class TouchInput {
       if (!this.cancelled && Date.now() - this.tapStart < this.tapMaxTime) {
         const target = this.getTarget(evt);
         if (!target) {
-          globalThis.MobileMode.navigation.toggleHud()
+          globalThis.MobileMode.navigation.toggleHud();
         }
       }
       this.cancelled = false;
