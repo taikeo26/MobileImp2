@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "mobile-improvements",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Foundry VTT module for mobile screens",
   "scripts": {
     "build": "node build.mjs build",

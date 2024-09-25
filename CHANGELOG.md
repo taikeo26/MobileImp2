@@ -1,3 +1,21 @@
+## [1.3.1] - 2024-09-25
+
+Compatibility updates & fixes from @MrAioros
+
+### Added
+
+- Compatibility adjustments for gurps
+- Compatibility adjustments for pf2e
+- Compatibility adjustments for sfrpg
+- Compatibility adjustments for Loot Sheet NPC 5e
+- Compatibility adjustments for Window Controls
+- Compatibility adjustments for Filepicker+
+- Show error notification when the scene background size exceeds the max supported size on your device
+
+### Fixed
+
+- Fixed error in ApplivationV2 integration
+
 ## [1.3.0] - 2024-08-25
 
 ### Added
