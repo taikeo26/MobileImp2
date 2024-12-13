@@ -6,7 +6,10 @@
   --navigationHeight: 35px;
   --vh: 1vh;
   --externalTaskbarHeight: 0px;
-  --viewHeight: calc(calc(var(--vh) * 100) - var(--navigationHeight) - var(--externalTaskbarHeight));
+  --viewHeight: calc(
+    calc(var(--vh) * 100) - var(--navigationHeight) -
+      var(--externalTaskbarHeight)
+  );
   --miDarkBackground: #333;
   --miDarkBackgroundTransparent: #333333ee;
 }
@@ -228,10 +231,7 @@ body.mobile-improvements {
   }
 
   #loading {
-    width: calc(100vw - 20px);
-    top: unset !important;
-    bottom: calc(var(--navigationHeight) + 10px);
-    left: 10px;
+    width: 100%;
   }
   #loading #context {
     white-space: nowrap;
