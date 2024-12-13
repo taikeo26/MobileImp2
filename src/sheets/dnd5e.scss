@@ -266,6 +266,11 @@
   .dnd5e.sheet.item .sheet-body .tab[data-tab="description"] {
     /* overflow: hidden; */
   }
+
+  /*    Tooltips   */
+  .dnd5e-tooltip {
+    max-width: min(calc(100vw - 10px), 450px) !important;
+  }
 }
 
 /* ------------------------------------ */
