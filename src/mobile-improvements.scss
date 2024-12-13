@@ -23,6 +23,10 @@ html {
   overflow: hidden;
 }
 
+body {
+  overflow: clip;
+}
+
 ::-webkit-scrollbar {
   height: 6px;
 }
