@@ -308,6 +308,33 @@ function addWindowZoomControlButton(app, buttons) {
 Hooks.on("renderFormApplication", setWindowZoomValueFromStorage);
 Hooks.on("renderActorSheet", setWindowZoomValueFromStorage);
 
+Hooks.on("renderSettingsConfig", (app, html: JQuery) => {
+  if (!MobileMode.enabled) {
+    return;
+  }
+  const sidebar = html.find(".sidebar");
+  sidebar.after(
+    `<div class="sidebar-toggle"><i class="fas fa-caret-left"></i></div>`
+  );
+  const toggle = sidebar.next();
+
+  toggle.on("click", () => {
+    const visible = sidebar.css("display") !== "none";
+    const icon = toggle.find(".fas");
+    if (visible) {
+      icon.removeClass("fa-caret-left");
+      icon.addClass("fa-caret-right");
+      sidebar.css("display", "none");
+      toggle.css("min-width", "16px");
+    } else {
+      icon.removeClass("fa-caret-right");
+      icon.addClass("fa-caret-left");
+      sidebar.css("display", "");
+      toggle.css("min-width", "");
+    }
+  });
+});
+
 Hooks.on("WindowManager:Maximized", onMainWindowChanged);
 Hooks.on("WindowManager:Minimized", onMainWindowChanged);
 Hooks.on("WindowManager:Removed", onMainWindowChanged);

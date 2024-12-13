@@ -294,6 +294,21 @@ body.mobile-improvements {
   overflow-y: scroll;
 }
 
+#client-settings {
+  .sidebar-toggle {
+    flex-grow: 0;
+    background: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    flex-shrink: 0;
+    min-width: 10px;
+    margin-right: -5px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .app.sidebar-popout .directory-list {
   max-height: initial;
 }
