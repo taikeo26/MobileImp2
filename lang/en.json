@@ -5,6 +5,8 @@
   "MOBILEIMPROVEMENTS.SettingsShowToggleHint": "Shows a toggle button in the top left for toggling mobile mode manually",
   "MOBILEIMPROVEMENTS.SettingsShowChatOnRoll": "Show chat on users own dice roll",
   "MOBILEIMPROVEMENTS.SettingsShowChatOnRollHint": "Shows the chat window for a user when they roll dice, to show the results",
+  "MOBILEIMPROVEMENTS.SettingsShowRollBubbles": "Show your dice roll results as a popup",
+  "MOBILEIMPROVEMENTS.SettingsShowRollBubblesHint": "Shows a temporary popup with the result of your dice rolls",
   "MOBILEIMPROVEMENTS.NavigationScene": "Scene",
   "MOBILEIMPROVEMENTS.NavigationApp": "App",
   "MOBILEIMPROVEMENTS.NavigationActions": "Actions",

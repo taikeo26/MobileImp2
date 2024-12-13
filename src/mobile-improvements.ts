@@ -9,6 +9,7 @@ import * as windowMgr from "./module/windowManager.js";
 import { MobileUI, ViewState } from "./module/MobileUi.js";
 import { viewHeight } from "./module/util.js";
 import { TouchInput } from "./module/touchInput.js";
+import { initChatEffects } from "./module/chatEffects.js";
 
 declare global {
   interface LenientGlobalVariableTypes {
@@ -177,6 +178,8 @@ Hooks.on("ready", () => {
     MobileMode.updateCompatibilityClasses();
   }
   MobileMode.navigation.render(true);
+  initChatEffects();
+
   showToggleModeButton(getSetting(settings.SHOW_MOBILE_TOGGLE));
 });
 
@@ -221,33 +224,6 @@ Hooks.once("renderSceneNavigation", () => {
 Hooks.once("renderPlayerList", () =>
   togglePlayerList(getSetting(settings.SHOW_PLAYER_LIST))
 );
-
-Hooks.on("createChatMessage", (message: ChatMessage) => {
-  if (
-    !MobileMode.enabled ||
-    !message.isAuthor ||
-    !getSetting(settings.SHOW_CHAT_ON_ROLL)
-  ) {
-    return;
-  }
-
-  const shouldBloop =
-    MobileMode.navigation.state === ViewState.Map ||
-    window.WindowManager.minimizeAll() ||
-    ui.sidebar.activeTab !== "chat";
-
-  MobileMode.navigation.showSidebar();
-  ui.sidebar.activateTab("chat");
-
-  if (shouldBloop) {
-    Hooks.once("renderChatMessage", (obj: ChatMessage, html: JQuery) => {
-      if (obj.id !== message.id) return; // Avoid possible race condition?
-
-      html.addClass("bloop");
-      setTimeout(() => html.removeClass("bloop"), 10000);
-    });
-  }
-});
 
 Hooks.on("getApplicationHeaderButtons", addWindowZoomControlButton);
 Hooks.on("getActorSheetHeaderButtons", addWindowZoomControlButton);
