@@ -1,3 +1,7 @@
+## [1.3.3] - 2024-12-14
+
+Bump version to re-release 1.3.2 correctly
+
 ## [1.3.2] - 2024-12-14
 
 Customization updates! Also fixing our longest-standing request not to switch to chat on dice rolls.
