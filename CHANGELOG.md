@@ -1,3 +1,19 @@
+## [1.3.2] - 2024-12-14
+
+Customization updates! Also fixing our longest-standing request not to switch to chat on dice rolls.
+
+### Added
+
+- Add a toggle for "Show chat on users own dice roll", default disabled, controlled by GM
+- Add a timed popup with the result of your own dice results (default on)
+- Add a sidebar toggle in the settings window to make it easier to change settings
+
+### Fixed
+
+- Stop large dnd5e tooltips from becoming wider than the screen
+- Stop "loading" progress bar from becoming wider than the screen
+- Stop flicker on dice rolls with Dice so Nice!
+
 ## [1.3.1] - 2024-09-25
 
 Compatibility updates & fixes from @MrAioros
