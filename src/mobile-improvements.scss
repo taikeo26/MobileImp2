@@ -152,18 +152,19 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     padding: 0;
   }
 
-  #sidebar-tabs > .item {
+  #sidebar-tabs .ui-control {
+    color: var(--color-text-secondary);
+    background: transparent;
     border-radius: 0;
-    flex-shrink: 1;
     border: none;
   }
 
-  #sidebar #sidebar-tabs > .item.active {
+  #sidebar #sidebar-tabs .ui-control[aria-pressed="true"] {
     border: none;
     box-shadow: none;
-    color: var(--color-text-hyperlink);
+    color: var(--color-warm-2);
     text-shadow: 0 0 2px #0003;
-    .fas:not(.notification-pip) {
+    &::before {
       transform: scale(1.2);
     }
   }
