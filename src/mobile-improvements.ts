@@ -157,6 +157,7 @@ Hooks.on("drawPrimaryCanvasGroup", () => {
 });
 
 Hooks.on("ready", () => {
+  supressNotifications();
   // Compatibility with Window Controls
   if (game.modules?.get("window-controls")?.active) {
     MobileMode.compatibilityClasses.push("mi-window-controls");
@@ -354,42 +355,18 @@ function setWindowZoomValueFromStorage(app, html) {
   }
 }
 
-const notificationQueueProxy = {
-  get: function (target, key) {
-    if (key === "__isProxy") return true;
-
-    if (key === "push") {
-      return (...arg) => {
-        if (Hooks.call("queuedNotification", ...arg)) {
-          target.push(...arg);
-        }
-      };
+function supressNotifications() {
+  const oldNotify = ui.notifications.notify.bind(ui.notifications);
+  ui.notifications.notify = function (...args) {
+    if (args[0] === "ERROR.LowResolution") {
+      console.info("notification suppressed", args);
+      return;
     }
-    return target[key];
-  },
-};
-
-Hooks.once("renderNotifications", (app) => {
-  if (!app.queue.__isProxy) {
-    app.queue = new Proxy(app.queue, notificationQueueProxy);
-  }
-});
+    oldNotify(...args);
+  };
+}
 
 const touchInput = new TouchInput();
 Hooks.on("canvasReady", () => touchInput.hook());
-
-Hooks.on("queuedNotification", (notif) => {
-  if (typeof notif.message === "string") {
-    const regex = /\s.+px/g;
-    const message = notif.message?.replace(regex, "");
-    //@ts-ignore
-    const match = game.i18n.translations.ERROR.LowResolution.replace(regex, "");
-
-    if (message == match) {
-      console.log("notification suppressed", notif);
-      return false;
-    }
-  }
-});
 
 globalThis.MobileMode = MobileMode;
