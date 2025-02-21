@@ -2,7 +2,7 @@
 /*                Core UI               */
 /* ------------------------------------ */
 
-:root {
+body {
   --navigationHeight: 35px;
   --vh: 1vh;
   --externalTaskbarHeight: 0px;
@@ -10,7 +10,7 @@
     calc(var(--vh) * 100) - var(--navigationHeight) -
       var(--externalTaskbarHeight)
   );
-  --miDarkBackground: #333;
+  --miDarkBackground: var(--color-cool-4);
   --miDarkBackgroundTransparent: #333333ee;
 }
 
@@ -57,7 +57,20 @@ body.mobile-improvements {
   display: none;
 }
 
+body.game.mobile-improvements :is(.app, .sidebar-tab) {
+  --sidebar-width: 100%;
+}
+
 .mobile-improvements {
+  --sidebar-width: 100%;
+
+  @layer blocks.base {
+    .chat-log[hidden]:not([hidden="until-found"]) {
+      display: block !important;
+      z-index: 200;
+    }
+  }
+
   // Fullscreen
   #ui-left,
   #ui-middle,
@@ -88,6 +101,31 @@ body.mobile-improvements {
     box-shadow: none;
   }
 
+  .sidebar-tab:not(.sidebar-popout) {
+    border-radius: 0;
+  }
+
+  .chat-sidebar:not(.sidebar-popout) {
+    background: var(--color-cool-5-90);
+  }
+
+  #chat {
+    width: 100%;
+  }
+
+  #ui-right-column-1 {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  #sidebar-content {
+    flex-shrink: 1;
+    width: 100%;
+    flex-grow: 1;
+    margin: 0;
+  }
+
   // Scene mode is default
   #ui-right {
     max-width: 300px;
@@ -109,6 +147,9 @@ body.mobile-improvements {
     border-bottom: none;
     box-shadow: 0 0 10px #000c;
     --sidebar-tab-height: var(--navigationHeight);
+    height: 100%;
+    opacity: 1;
+    padding: 0;
   }
 
   #sidebar-tabs > .item {
@@ -127,7 +168,7 @@ body.mobile-improvements {
     }
   }
 
-  #sidebar #sidebar-tabs > .collapse {
+  #sidebar #sidebar-tabs .collapse {
     display: none;
   }
 
@@ -161,6 +202,7 @@ body.mobile-improvements {
     border-radius: 5px 5px 0 0;
     transform: translateY(calc(100% + var(--navigationHeight)));
     margin: 0;
+    opacity: 1;
   }
 
   &.show-hotbar #hotbar {

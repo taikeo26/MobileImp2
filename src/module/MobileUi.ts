@@ -88,14 +88,22 @@ export class MobileUI extends Application {
   expandSidebarWithoutAnimation() {
     //@ts-ignore
     if (!ui.sidebar._collapsed) return;
-    const sidebar = ui.sidebar.element;
-    const tab = sidebar.find(".sidebar-tab.active");
-    const tabs = sidebar.find("#sidebar-tabs");
-    const icon = tabs.find("a.collapse i");
-    sidebar.css({ width: "", height: "" });
-    sidebar.removeClass("collapsed");
-    tab.css({ display: "", height: "" });
-    icon.removeClass("fa-caret-left").addClass("fa-caret-right");
+
+    const sidebar = ui.sidebar.element as unknown as HTMLElement;
+    const tab = sidebar.querySelector(
+      ".sidebar-tab.active"
+    ) as HTMLElement | null;
+    const tabs = sidebar.querySelector("#sidebar-tabs");
+    const icon = tabs?.querySelector("a.collapse i");
+    sidebar.style.height = "";
+    sidebar.style.width = "";
+    sidebar.classList.remove("collapsed");
+    if (tab) {
+      tab.style.display = "";
+      tab.style.height = "";
+    }
+    icon?.classList.remove("fa-caret-left");
+    icon?.classList.add("fa-caret-right");
     //@ts-ignore
     ui.sidebar._collapsed = false;
     //@ts-ignore
@@ -105,14 +113,19 @@ export class MobileUI extends Application {
   collapseSidebarWithoutAnimation() {
     //@ts-ignore
     if (ui.sidebar._collapsed) return;
-    const sidebar = ui.sidebar.element;
-    const tab = sidebar.find(".sidebar-tab.active");
-    const tabs = sidebar.find("#sidebar-tabs");
-    const icon = tabs.find("a.collapse i");
-    sidebar.css("height", "");
-    sidebar.addClass("collapsed");
-    tab.css("display", "");
-    icon.removeClass("fa-caret-right").addClass("fa-caret-left");
+    const sidebar = ui.sidebar.element as unknown as HTMLElement;
+    const tab = sidebar.querySelector(
+      ".sidebar-tab.active"
+    ) as HTMLElement | null;
+    const tabs = sidebar.querySelector("#sidebar-tabs");
+    const icon = tabs?.querySelector("a.collapse i");
+    sidebar.style.height = "";
+    sidebar.classList.add("collapsed");
+    if (tab) {
+      tab.style.display = "";
+    }
+    icon?.classList.remove("fa-caret-right");
+    icon?.classList.add("fa-caret-left");
     //@ts-ignore
     ui.sidebar._collapsed = true;
     //@ts-ignore

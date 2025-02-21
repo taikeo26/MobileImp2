@@ -6,7 +6,8 @@
   "version": "",
   "authors": [
     {
-      "name": "Sunspots"
+      "name": "Sunspots",
+      "url": "https://gitlab.com/sunspots"
     }
   ],
   "scripts": [],
@@ -19,7 +20,16 @@
       }
     ]
   },
-  "styles": ["./mobile-improvements.css", "./dnd5e.css", "./pf2e.css", "./gurps.css", "./sfrpg.css"],
+  "styles": [
+    {
+      "src": "./mobile-improvements.css",
+      "layer": null
+    },
+    "./dnd5e.css",
+    "./pf2e.css",
+    "./gurps.css",
+    "./sfrpg.css"
+  ],
   "packs": [],
   "languages": [
     {
@@ -29,8 +39,8 @@
     }
   ],
   "compatibility": {
-    "minimum": "9.238",
-    "verified": "12.331"
+    "minimum": "13.336",
+    "verified": "13.336"
   },
   "url": "",
   "manifest": "",
