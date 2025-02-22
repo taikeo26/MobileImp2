@@ -152,11 +152,16 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     padding: 0;
   }
 
+  #sidebar-tabs > menu {
+    gap: 0;
+  }
+
   #sidebar-tabs .ui-control {
     color: var(--color-text-secondary);
     background: transparent;
     border-radius: 0;
     border: none;
+    height: 40px;
   }
 
   #sidebar #sidebar-tabs .ui-control[aria-pressed="true"] {
@@ -164,6 +169,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     box-shadow: none;
     color: var(--color-warm-2);
     text-shadow: 0 0 2px #0003;
+    background: black;
     &::before {
       transform: scale(1.2);
     }
@@ -183,6 +189,10 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 
   #ui-top #scene-list {
     min-width: 110px;
+  }
+
+  #players {
+    width: fit-content;
   }
 
   #players h3 {
