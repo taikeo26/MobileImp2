@@ -128,7 +128,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 
   // Scene mode is default
   #ui-right {
-    max-width: 300px;
+    max-width: 340px;
     @media screen and (max-width: 650px) {
       max-width: 100vw;
     }
@@ -646,8 +646,8 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 
 #mobile-improvements-toggle {
   position: absolute;
-  top: 33px;
-  left: 84px;
+  top: 54px;
+  left: 91px;
   z-index: 61;
 
   height: 29px;
