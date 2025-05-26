@@ -7,7 +7,6 @@ import {
 } from "./module/settings.js";
 import * as windowMgr from "./module/windowManager.js";
 import { MobileUI, ViewState } from "./module/MobileUi.js";
-import { viewHeight } from "./module/util.js";
 import { TouchInput } from "./module/touchInput.js";
 import { initChatEffects } from "./module/chatEffects.js";
 
@@ -23,7 +22,7 @@ function setMeta(maxScale = "1.0") {
   if (meta) {
     meta.setAttribute(
       "content",
-      `width=device-width, initial-scale=1.0, maximum-scale=${maxScale}, user-scalable=1`
+      `width=device-width, initial-scale=1.0, maximum-scale=${maxScale}, user-scalable=1, interactive-widget=resizes-content`
     );
   }
 }
@@ -47,7 +46,6 @@ abstract class MobileMode {
     MobileMode.updateCompatibilityClasses();
     setMeta();
     ui.nav?.collapse();
-    viewHeight();
     Hooks.call("mobile-improvements:enter");
   }
 
@@ -61,8 +59,6 @@ abstract class MobileMode {
   }
 
   static viewResize() {
-    if (MobileMode.enabled) viewHeight();
-
     if (game.settings && getSetting(settings.PIN_MOBILE_MODE))
       return MobileMode.enter();
     if (localStorage.getItem("mobile-improvements.pinMobileMode") === "true")

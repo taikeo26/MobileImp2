@@ -2,29 +2,31 @@
 /*                Core UI               */
 /* ------------------------------------ */
 
-body {
-  --navigationHeight: 35px;
-  --vh: 1vh;
-  --externalTaskbarHeight: 0px;
-  --viewHeight: calc(
-    calc(var(--vh) * 100) - var(--navigationHeight) -
-      var(--externalTaskbarHeight)
-  );
-  --miDarkBackground: var(--color-cool-4);
-  --miDarkBackgroundTransparent: #333333ee;
-}
-
-* {
-  scrollbar-width: thin;
+:root {
+  --app-height: 100dvh;
+  --navigationHeight: 38px;
 }
 
 html {
   background: black;
   overflow: hidden;
+  height: var(--app-height);
 }
 
 body {
+  height: var(--app-height);
+  --externalTaskbarHeight: 0px;
+  --viewHeight: calc(
+    var(--app-height) - var(--navigationHeight) - var(--externalTaskbarHeight)
+  );
+  --miDarkBackground: var(--color-cool-4);
+  --miDarkBackgroundTransparent: #333333ee;
+  width: 100vw;
   overflow: clip;
+}
+
+* {
+  scrollbar-width: thin;
 }
 
 ::-webkit-scrollbar {
@@ -39,10 +41,11 @@ body {
 // Mobile Improvements enabled
 html.mobile-improvements {
   overflow: hidden;
+  height: 100%;
 }
 
 body.mobile-improvements {
-  height: calc(var(--vh) * 100 - var(--externalTaskbarHeight)) !important;
+  height: calc(100% - var(--externalTaskbarHeight)) !important;
   position: relative;
   &.mi-window-controls-persistent {
     --externalTaskbarHeight: 40px;
@@ -88,6 +91,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   }
   #ui-right {
     z-index: 80;
+    pointer-events: all;
   }
   #ui-middle {
     z-index: 1000;
@@ -146,10 +150,10 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     background: var(--miDarkBackground);
     border-bottom: none;
     box-shadow: 0 0 10px #000c;
-    --sidebar-tab-height: var(--navigationHeight);
     height: 100%;
     opacity: 1;
     padding: 0;
+    overflow-y: scroll;
   }
 
   #sidebar-tabs > menu {
@@ -217,6 +221,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     justify-content: center;
     flex-wrap: nowrap;
     gap: 4px;
+    padding-bottom: 10px;
   }
 
   &.show-hotbar #hotbar {
@@ -806,7 +811,8 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   z-index: 1002;
   background-color: var(--miDarkBackground);
   position: absolute;
-  top: var(--viewHeight);
+  // top: var(--viewHeight);
+  bottom: 0;
   align-items: stretch;
   transition: transform ease-in 50ms;
   list-style: none;
@@ -827,6 +833,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   text-align: center;
   white-space: nowrap;
   opacity: 0.6;
+  margin: 0;
 }
 
 .mobile-navigation li i {
@@ -1022,5 +1029,8 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     z-index: 81;
     width: 100% !important;
     height: var(--viewHeight) !important;
+  }
+  #touch-vtt-controls button {
+    max-width: 72px;
   }
 }
