@@ -285,29 +285,31 @@ function addWindowZoomControlButton(app, buttons) {
 Hooks.on("renderFormApplication", setWindowZoomValueFromStorage);
 Hooks.on("renderActorSheet", setWindowZoomValueFromStorage);
 
-Hooks.on("renderSettingsConfig", (app, html: JQuery) => {
+Hooks.on("renderSettingsConfig", (app, html: HTMLElement) => {
   if (!MobileMode.enabled) {
     return;
   }
-  const sidebar = html.find(".sidebar");
-  sidebar.after(
-    `<div class="sidebar-toggle"><i class="fas fa-caret-left"></i></div>`
-  );
-  const toggle = sidebar.next();
+  console.log(html);
+  const sidebar = html.querySelector(
+    `aside[data-application-part="sidebar"]`
+  ) as HTMLElement;
+  console.log(sidebar);
+  const toggle = document.createElement("div");
+  toggle.className = "sidebar-toggle";
+  toggle.innerHTML = `<i class="fas fa-caret-left"></i>`;
+  sidebar?.insertAdjacentElement("afterend", toggle);
 
-  toggle.on("click", () => {
-    const visible = sidebar.css("display") !== "none";
-    const icon = toggle.find(".fas");
+  toggle.addEventListener("click", () => {
+    const visible = sidebar.style.display !== "none";
+    const icon = toggle.firstElementChild!;
     if (visible) {
-      icon.removeClass("fa-caret-left");
-      icon.addClass("fa-caret-right");
-      sidebar.css("display", "none");
-      toggle.css("min-width", "16px");
+      icon.classList.remove("fa-caret-left");
+      icon.classList.add("fa-caret-right");
+      sidebar.style.display = "none";
     } else {
-      icon.removeClass("fa-caret-right");
-      icon.addClass("fa-caret-left");
-      sidebar.css("display", "");
-      toggle.css("min-width", "");
+      icon.classList.remove("fa-caret-right");
+      icon.classList.add("fa-caret-left");
+      sidebar.style.display = "";
     }
   });
 });

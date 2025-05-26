@@ -351,18 +351,19 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   overflow-y: scroll;
 }
 
-#client-settings {
+#settings-config {
   .sidebar-toggle {
     flex-grow: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(125, 125, 125, 0.26);
     cursor: pointer;
     flex-shrink: 0;
     min-width: 10px;
-    margin-right: -5px;
+    margin-right: 5px;
     z-index: 2;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: -17px;
   }
 }
 
