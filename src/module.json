@@ -17,6 +17,14 @@
       {
         "id": "touch-vtt",
         "type": "module"
+      },
+      {
+        "id": "lib-wrapper",
+        "type": "module",
+        "compatibility": {
+          "minimum": "1.13.0.0",
+          "verified": "1.13.2.0"
+        }
       }
     ]
   },

@@ -113,31 +113,35 @@ export class WindowManager {
 
   augmentAppV1() {
     ui.windows = new Proxy(ui.windows, this.windowChangeHandler);
-    // Override Application bringToTop
-    const old = Application.prototype.bringToTop;
-    const windowBroughtToTop = this.windowBroughtToTop.bind(this);
-    Application.prototype.bringToTop = function () {
-      old.call(this);
-      windowBroughtToTop(this.appId);
-    };
 
-    // Override Application minimize
-    const windowMinimized = this.windowMinimized.bind(this);
-    const oldMinimize = Application.prototype.minimize;
-    Application.prototype.minimize = function () {
-      const r = oldMinimize.call(this);
-      r.then(() => windowMinimized(this.appId));
-      return r;
-    };
+    const WM = this;
 
-    // Override Application maximize
-    const windowMaximized = this.windowMaximized.bind(this);
-    const oldMaximize = Application.prototype.maximize;
-    Application.prototype.maximize = function () {
-      const r = oldMaximize.call(this);
-      r.then(() => windowMaximized(this.appId));
-      return r;
-    };
+    window.libWrapper.register(
+      "mobile-improvements",
+      "Application.prototype.bringToTop",
+      function () {
+        WM.windowBroughtToTop(this.appId);
+      },
+      "LISTENER"
+    );
+
+    window.libWrapper.register(
+      "mobile-improvements",
+      "Application.prototype.minimize",
+      function () {
+        WM.windowMinimized(this.appId);
+      },
+      "LISTENER"
+    );
+
+    window.libWrapper.register(
+      "mobile-improvements",
+      "Application.prototype.maximize",
+      function () {
+        WM.windowMaximized(this.appId);
+      },
+      "LISTENER"
+    );
   }
 
   augmentAppV2() {
@@ -157,42 +161,42 @@ export class WindowManager {
       newWindow && this.newWindowRendered(newWindow.id);
     });
 
-    //@ts-ignore
-    const AppV2 = foundry.applications.api.ApplicationV2;
+    const WM = this;
 
-    // Override Application bringToTop
-    const old = AppV2.prototype.bringToFront;
-    const windowBroughtToTop = this.windowBroughtToTop.bind(this);
-    AppV2.prototype.bringToFront = function () {
-      old.call(this);
-      windowBroughtToTop(v2AppId(this));
-    };
+    window.libWrapper.register(
+      "mobile-improvements",
+      "foundry.applications.api.ApplicationV2.prototype.bringToFront",
+      function () {
+        WM.windowBroughtToTop(v2AppId(this));
+      },
+      "LISTENER"
+    );
+    window.libWrapper.register(
+      "mobile-improvements",
+      "foundry.applications.api.ApplicationV2.prototype.minimize",
+      function () {
+        WM.windowMinimized(v2AppId(this));
+      },
+      "LISTENER"
+    );
 
-    // Override Application minimize
-    const windowMinimized = this.windowMinimized.bind(this);
-    const oldMinimize = AppV2.prototype.minimize;
-    AppV2.prototype.minimize = function () {
-      const r = oldMinimize.call(this);
-      r.then(() => windowMinimized(v2AppId(this)));
-      return r;
-    };
+    window.libWrapper.register(
+      "mobile-improvements",
+      "foundry.applications.api.ApplicationV2.prototype.maximize",
+      function () {
+        WM.windowMaximized(v2AppId(this));
+      },
+      "LISTENER"
+    );
 
-    // Override Application maximize
-    const windowMaximized = this.windowMaximized.bind(this);
-    const oldMaximize = AppV2.prototype.maximize;
-    AppV2.prototype.maximize = function () {
-      const r = oldMaximize.call(this);
-      r.then(() => windowMaximized(v2AppId(this)));
-      return r;
-    };
-    // Override Application close
-    const windowRemoved = this.windowRemoved.bind(this);
-    const oldClose = AppV2.prototype.close;
-    AppV2.prototype.close = function (...args) {
-      const r = oldClose.call(this, ...args);
-      r.then(() => windowRemoved(v2AppId(this)));
-      return r;
-    };
+    window.libWrapper.register(
+      "mobile-improvements",
+      "foundry.applications.api.ApplicationV2.prototype.close",
+      function () {
+        WM.windowRemoved(v2AppId(this));
+      },
+      "LISTENER"
+    );
   }
 
   newWindowRendered(appId: number | string): void {
@@ -222,20 +226,20 @@ export class WindowManager {
     return this.windows[appId];
   }
 
-  windowRemoved(appId: number): void {
+  windowRemoved(appId: number | string): void {
     delete this.windows[appId];
     Hooks.call("WindowManager:Removed", appId);
     this.checkEmpty();
   }
-  windowBroughtToTop(appId: number): void {
+  windowBroughtToTop(appId: number | string): void {
     Hooks.call("WindowManager:BroughtToTop", appId);
   }
 
-  windowMinimized(appId: number): void {
+  windowMinimized(appId: number | string): void {
     Hooks.call("WindowManager:Minimized", appId);
     this.checkEmpty();
   }
-  windowMaximized(appId: number): void {
+  windowMaximized(appId: number | string): void {
     Hooks.call("WindowManager:Maximized", appId);
   }
 
