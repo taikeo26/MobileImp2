@@ -804,7 +804,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   margin: 0;
   padding: 0;
   z-index: 1002;
-  background-color: #242424;
+  background-color: var(--miDarkBackground);
   position: absolute;
   top: var(--viewHeight);
   align-items: stretch;
