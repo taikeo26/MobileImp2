@@ -38,12 +38,6 @@ body {
   background-color: #d8d7cc;
 }
 
-// Mobile Improvements enabled
-html.mobile-improvements {
-  overflow: hidden;
-  height: 100%;
-}
-
 body.mobile-improvements {
   height: calc(100% - var(--externalTaskbarHeight)) !important;
   position: relative;
