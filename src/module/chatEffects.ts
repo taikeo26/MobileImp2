@@ -25,22 +25,25 @@ export function initChatEffects() {
       ui.sidebar.activateTab("chat");
 
       if (shouldBloop) {
-        Hooks.once("renderChatMessage", (obj: ChatMessage, html: JQuery) => {
-          if (obj.id !== newMessage.id) return; // Avoid possible race condition?
+        Hooks.once(
+          "renderChatMessageHTML",
+          (obj: ChatMessage, html: HTMLElement) => {
+            if (obj.id !== newMessage.id) return; // Avoid possible race condition?
 
-          html.addClass("bloop");
-          setTimeout(() => html.removeClass("bloop"), 10000);
-        });
+            html.classList.add("bloop");
+            setTimeout(() => html.classList.remove("bloop"), 10000);
+          }
+        );
       }
     }
 
     if (getSetting(settings.SHOW_ROLL_BUBBLES)) {
       Hooks.once(
-        "renderChatMessage",
-        async (message: ChatMessage, html: JQuery, data) => {
+        "renderChatMessageHTML",
+        async (message: ChatMessage, html: HTMLElement, data) => {
           if (newMessage.id !== message.id) return; // Avoid possible race condition?
 
-          if (html.hasClass("dsn-hide")) {
+          if (html.classList.contains("dsn-hide")) {
             await new Promise<void>((resolve) => {
               Hooks.once("diceSoNiceRollComplete", () => {
                 resolve();
