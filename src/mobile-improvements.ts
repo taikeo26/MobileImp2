@@ -6,7 +6,7 @@ import {
   setSetting,
 } from "./module/settings.js";
 import * as windowMgr from "./module/windowManager.js";
-import { MobileUI, ViewState } from "./module/MobileUi.js";
+import { MobileUI } from "./module/MobileUi.js";
 import { TouchInput } from "./module/touchInput.js";
 import { initChatEffects } from "./module/chatEffects.js";
 
@@ -352,20 +352,24 @@ function setWindowZoomValueFromStorage(app, html) {
 }
 
 function supressNotifications() {
-  const oldNotify = ui.notifications.notify.bind(ui.notifications);
-  ui.notifications.notify = function (...args) {
-    if (
-      [
-        "ERROR.LowResolution",
-        "ERROR.RESOLUTION.Window",
-        "ERROR.RESOLUTION.Screen",
-      ].includes(args[0])
-    ) {
-      console.info("notification suppressed", args);
-      return;
+  window.libWrapper.register(
+    "mobile-improvements",
+    "ui.notifications.notify",
+    function (wrapped, ...args) {
+      if (
+        [
+          "ERROR.LowResolution",
+          "ERROR.RESOLUTION.Window",
+          "ERROR.RESOLUTION.Screen",
+          "ERROR.RESOLUTION.Scale",
+        ].includes(args[0])
+      ) {
+        console.info("notification suppressed", args);
+        return;
+      }
+      return wrapped(...args);
     }
-    oldNotify(...args);
-  };
+  );
 }
 
 const touchInput = new TouchInput();

@@ -6,7 +6,7 @@ interface Window {
     register(
       package_id: string,
       target: number | string,
-      fn: (arg: any) => any,
+      fn: (...args: any[]) => any,
       type?: string,
       options?: any
     ): void;
