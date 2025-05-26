@@ -180,38 +180,45 @@ Hooks.on("ready", () => {
   showToggleModeButton(getSetting(settings.SHOW_MOBILE_TOGGLE));
 });
 
-Hooks.once("renderChatLog", (app: Application) => {
+Hooks.once("renderChatLog", (app: ApplicationV2) => {
+  if (!app.element) {
+    return;
+  }
   let touchWhenFocused = false;
-  const form = app.element.find("#chat-form");
-  const textarea = form.find("#chat-message").get(0);
-  const btn = $(
-    `<button id="chat-form--send"><i class="fas fa-paper-plane"></i></button>`
-  );
+  const form = app.element.querySelector(".chat-form") as HTMLFormElement;
+  const textarea = form?.querySelector("#chat-message") as HTMLTextAreaElement;
+  const controls = form.querySelector(".chat-controls");
 
-  btn.on("touchstart", () => {
+  const btn = document.createElement("button");
+  btn.id = "chat-form--send";
+  btn.className = "ui-control";
+  btn.innerHTML = `<i class="fas fa-paper-plane"></i>`;
+
+  btn.addEventListener("touchstart", () => {
     if (document.activeElement === textarea) {
       touchWhenFocused = true;
     }
   });
-  btn.on("touchend", () => {
+  btn.addEventListener("touchend", () => {
     setTimeout(() => (touchWhenFocused = false), 100);
   });
 
-  btn.on("click", (evt) => {
+  btn.addEventListener("click", (evt) => {
     evt.preventDefault();
     if (touchWhenFocused) {
       textarea?.focus();
     }
+    console.log(app);
     //@ts-ignore
-    app._onChatKeyDown({
-      code: "Enter",
-      originalEvent: {},
+    app._onKeyDown({
+      key: "Enter",
+      target: textarea,
       preventDefault: () => {},
       stopPropagation: () => {},
       currentTarget: textarea,
     });
   });
-  form.append(btn);
+  controls?.append(btn);
 });
 
 Hooks.once("renderSceneNavigation", () => {
