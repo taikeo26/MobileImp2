@@ -289,11 +289,9 @@ Hooks.on("renderSettingsConfig", (app, html: HTMLElement) => {
   if (!MobileMode.enabled) {
     return;
   }
-  console.log(html);
   const sidebar = html.querySelector(
     `aside[data-application-part="sidebar"]`
   ) as HTMLElement;
-  console.log(sidebar);
   const toggle = document.createElement("div");
   toggle.className = "sidebar-toggle";
   toggle.innerHTML = `<i class="fas fa-caret-left"></i>`;
@@ -318,9 +316,9 @@ Hooks.on("WindowManager:Maximized", onMainWindowChanged);
 Hooks.on("WindowManager:Minimized", onMainWindowChanged);
 Hooks.on("WindowManager:Removed", onMainWindowChanged);
 
-function setMetaForWindow(html) {
-  if (MobileMode.enabled) {
-    const elem = html.get(0);
+function setMetaForWindow(html: HTMLElement | JQuery<HTMLElement> | undefined) {
+  if (MobileMode.enabled && html) {
+    const elem = "get" in html ? html.get(0) : html;
     const isZoomed =
       elem &&
       parseFloat(getComputedStyle(elem).getPropertyValue("--zoomValue")) < 1;
@@ -360,7 +358,6 @@ function setWindowZoomValueFromStorage(app, html) {
 function supressNotifications() {
   const oldNotify = ui.notifications.notify.bind(ui.notifications);
   ui.notifications.notify = function (...args) {
-    console.log(args[0]);
     if (["ERROR.LowResolution", "ERROR.RESOLUTION.Screen"].includes(args[0])) {
       console.info("notification suppressed", args);
       return;
