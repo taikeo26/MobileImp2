@@ -20,7 +20,7 @@ body {
     var(--app-height) - var(--navigationHeight) - var(--externalTaskbarHeight)
   );
   --miUiBackground: var(--color-cool-4);
-  --miUiBackgroundTransparent: #333333ee;
+  --miUiBackgroundTransparent: #110e11ee;
   width: 100vw;
   overflow: clip;
 }
@@ -56,13 +56,15 @@ body.mobile-improvements {
 
 body.game.mobile-improvements :is(.app, .sidebar-tab) {
   --sidebar-width: 100%;
+  background-color: var(--miUiBackgroundTransparent);
 }
 
 .mobile-improvements {
   --sidebar-width: 100%;
 
   #interface.theme-light {
-    --miUiBackground: rgb(193, 193, 193);
+    --miUiBackground: #c1c1c1;
+    --miUiBackgroundTransparent: #c1c1c1ee;
   }
 
   @layer blocks.base {
@@ -105,10 +107,6 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 
   .sidebar-tab:not(.sidebar-popout) {
     border-radius: 0;
-  }
-
-  .chat-sidebar:not(.sidebar-popout) {
-    background: var(--miUiBackground);
   }
 
   #chat {
