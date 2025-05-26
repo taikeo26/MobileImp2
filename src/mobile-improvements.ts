@@ -358,7 +358,8 @@ function setWindowZoomValueFromStorage(app, html) {
 function supressNotifications() {
   const oldNotify = ui.notifications.notify.bind(ui.notifications);
   ui.notifications.notify = function (...args) {
-    if (args[0] === "ERROR.LowResolution") {
+    console.log(args[0]);
+    if (["ERROR.LowResolution", "ERROR.RESOLUTION.Screen"].includes(args[0])) {
       console.info("notification suppressed", args);
       return;
     }
