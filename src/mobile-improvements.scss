@@ -62,7 +62,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   --sidebar-width: 100%;
 
   #interface.theme-light {
-    --miUiBackground: rgb(224, 224, 224);
+    --miUiBackground: rgb(193, 193, 193);
   }
 
   @layer blocks.base {
@@ -108,7 +108,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   }
 
   .chat-sidebar:not(.sidebar-popout) {
-    background: var(--color-cool-5-90);
+    background: var(--miUiBackground);
   }
 
   #chat {
