@@ -19,8 +19,8 @@ body {
   --viewHeight: calc(
     var(--app-height) - var(--navigationHeight) - var(--externalTaskbarHeight)
   );
-  --miDarkBackground: var(--color-cool-4);
-  --miDarkBackgroundTransparent: #333333ee;
+  --miUiBackground: var(--color-cool-4);
+  --miUiBackgroundTransparent: #333333ee;
   width: 100vw;
   overflow: clip;
 }
@@ -60,6 +60,10 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 
 .mobile-improvements {
   --sidebar-width: 100%;
+
+  #interface.theme-light {
+    --miUiBackground: rgb(224, 224, 224);
+  }
 
   @layer blocks.base {
     .chat-log[hidden]:not([hidden="until-found"]) {
@@ -141,7 +145,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   }
 
   #sidebar-tabs {
-    background: var(--miDarkBackground);
+    background: var(--miUiBackground);
     border-bottom: none;
     box-shadow: 0 0 10px #000c;
     height: 100%;
@@ -204,7 +208,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     height: auto;
     width: 100%;
     max-width: 610px;
-    background: var(--miDarkBackground);
+    background: var(--miUiBackground);
     padding: 4px;
     pointer-events: all;
     box-shadow: 0 0 10px #000c;
@@ -495,7 +499,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 /* ------------------------------------ */
 .mobile-improvements {
   .app {
-    background: var(--miDarkBackgroundTransparent);
+    background: var(--miUiBackgroundTransparent);
     border-radius: 0;
 
     form .form-fields select {
@@ -610,7 +614,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
       flex-basis: auto;
     }
     .window-header {
-      background: var(--miDarkBackgroundTransparent);
+      background: var(--miUiBackgroundTransparent);
       font-size: 110%;
       font-weight: bold;
     }
@@ -660,7 +664,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   overflow: hidden;
 
   white-space: nowrap;
-  background-color: var(--miDarkBackground);
+  background-color: var(--miUiBackground);
   color: #f0f0e0;
   padding: 6px 10px;
   border-radius: 100px;
@@ -710,7 +714,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 .window-selector nav {
   width: 100%;
   padding: 0 1em;
-  background: var(--miDarkBackground);
+  background: var(--miUiBackground);
   max-height: calc(100vh - var(--navigationHeight));
   overflow-y: auto;
   pointer-events: auto;
@@ -785,7 +789,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   border: 1px solid #000;
   text-align: center;
   font-weight: bold;
-  background: var(--miDarkBackgroundTransparent);
+  background: var(--miUiBackgroundTransparent);
   color: #f0f0e0;
   box-shadow: 0 0 20px #000;
   cursor: pointer;
@@ -803,7 +807,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   margin: 0;
   padding: 0;
   z-index: 1002;
-  background-color: var(--miDarkBackground);
+  background-color: var(--miUiBackground);
   position: absolute;
   // top: var(--viewHeight);
   bottom: 0;
@@ -879,7 +883,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   align-items: center;
   position: absolute;
   top: var(--viewHeight);
-  background: var(--miDarkBackground);
+  background: var(--miUiBackground);
   height: 25px;
   width: 25px;
   font-size: 110%;
@@ -898,7 +902,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   display: flex !important;
   margin: 0;
   padding: 0;
-  background-color: var(--miDarkBackground);
+  background-color: var(--miUiBackground);
   align-items: stretch;
   list-style: none;
   color: #f0f0e0;
@@ -955,7 +959,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   overflow: hidden;
 
   .mi-chat-bubble {
-    background: var(--miDarkBackground);
+    background: var(--miUiBackground);
     color: var(--color-text-light-1);
     width: 200px;
     max-width: 100%;
