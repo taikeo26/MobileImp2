@@ -4,5 +4,6 @@ export const preloadTemplates = async function (): Promise<unknown> {
     "modules/mobile-improvements/templates/navigation.hbs",
     "modules/mobile-improvements/templates/menu.hbs",
   ];
-  return loadTemplates(templatePaths);
+  //@ts-expect-error
+  return foundry.applications.handlebars.loadTemplates(templatePaths);
 };

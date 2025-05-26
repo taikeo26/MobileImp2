@@ -173,7 +173,6 @@ export class MobileUI extends Application {
 
   showHotbar(): void {
     $(document.body).addClass("show-hotbar");
-    ui.hotbar.expand();
   }
 
   hideHotbar(): void {
