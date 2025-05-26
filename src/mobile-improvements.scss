@@ -214,6 +214,9 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     transform: translateY(calc(100% + var(--navigationHeight)));
     margin: 0;
     opacity: 1;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: 4px;
   }
 
   &.show-hotbar #hotbar {
@@ -231,6 +234,8 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 
   #hotbar #action-bar {
     height: auto;
+    max-width: 100%;
+    flex-shrink: 1;
   }
 
   #hotbar #macro-list {
