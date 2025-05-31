@@ -1027,4 +1027,9 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   #touch-vtt-controls button {
     max-width: 72px;
   }
+
+  #tokenizer > div {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
