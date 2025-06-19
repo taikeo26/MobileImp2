@@ -89,12 +89,13 @@ function showToggleModeButton(show: boolean) {
     $("#mobile-improvements-toggle").detach();
     return;
   }
-  const button = $(
-    `<a id="mobile-improvements-toggle"><i class="fas fa-mobile-alt"></i> ${game.i18n.localize(
-      "MOBILEIMPROVEMENTS.EnableMobileMode"
-    )}</a>`
-  );
-  $("body").append(button);
+  const button = $("<button>")
+    .attr("id", "mobile-improvements-toggle")
+    .attr("type", "button")
+    .attr("data-tooltip", game.i18n.localize("MOBILEIMPROVEMENTS.EnableMobileMode"))
+    .attr("data-tooltip-direction", "LEFT")
+    .addClass("ui-control icon fa-solid fa-mobile-alt");
+  $("#hotbar").prepend(button);
   button.on("click", () => {
     setSetting(settings.PIN_MOBILE_MODE, true);
   });
@@ -231,62 +232,68 @@ Hooks.once("renderPlayerList", () =>
 
 Hooks.on("getApplicationHeaderButtons", addWindowZoomControlButton);
 Hooks.on("getActorSheetHeaderButtons", addWindowZoomControlButton);
+Hooks.on("getHeaderControlsApplicationV2", addWindowZoomControlButton);
 
 function addWindowZoomControlButton(app, buttons) {
   if (MobileMode.enabled) {
     buttons.unshift({
       class: "zoom",
+      label: "MOBILEIMPROVEMENTS.ZoomOut",
       icon: "fa-solid fa-magnifying-glass-minus",
-      onclick: () => {
-        const html = $(app.element);
-        const currentZoom = getComputedStyle(html.get(0)).getPropertyValue(
-          "--zoomValue"
-        );
-        if (html.find(".window-zoom-slider").length > 0) {
-          html.find(".window-zoom-slider").remove();
-        } else {
-          const zoomTool = $("<div>")
-            .addClass("flexrow window-zoom-slider")
-            .insertAfter(html.find(".window-header"));
-          const zoomSlider = $("<input>")
-            .attr("type", "range")
-            .attr("min", 0.5)
-            .attr("max", 1)
-            .attr("step", 0.1)
-            .val(currentZoom)
-            .on("input", function () {
-              const newZoomValue = $(this).val() as number;
-              html.get(0).style.setProperty("--zoomValue", newZoomValue);
-              setMeta(newZoomValue < 1 ? "2.0" : "1.0");
-            })
-            .on("change", function () {
-              const orderedClasses = [...html.get(0).classList]
-                .filter((c) => !["app", "window-app"].includes(c))
-                .sort()
-                .join(" ");
-              setSetting(
-                settings.WINDOWS_ZOOM_VALUES,
-                foundry.utils.mergeObject(
-                  getSetting(settings.WINDOWS_ZOOM_VALUES),
-                  { [orderedClasses]: $(this).val() }
-                )
-              );
-            })
-            .appendTo(zoomTool);
-          const zoomHide = $("<i>")
-            .addClass("toggle fas fa-caret-up")
-            .on("click", function () {
-              $(this).closest(".window-zoom-slider").remove();
-            })
-            .appendTo(zoomTool);
-        }
-      },
+      onclick: () => createZoomControl(app),
+      onClick: () => createZoomControl(app),
     });
+  }
+}
+
+function createZoomControl(app) {
+  const html = $(app.element);
+  const currentZoom = getComputedStyle(html.get(0)).getPropertyValue(
+    "--zoomValue"
+  );
+  if (html.find(".window-zoom-slider").length > 0) {
+    html.find(".window-zoom-slider").remove();
+  } else {
+    const zoomTool = $("<div>")
+      .addClass("flexrow window-zoom-slider")
+      .insertAfter(html.find(".window-header"));
+    const zoomSlider = $("<input>")
+      .attr("type", "range")
+      .attr("min", 0.5)
+      .attr("max", 1)
+      .attr("step", 0.1)
+      .val(currentZoom)
+      .on("input", function () {
+        const newZoomValue = $(this).val() as number;
+        html.get(0).style.setProperty("--zoomValue", newZoomValue);
+        setMeta(newZoomValue < 1 ? "2.0" : "1.0");
+      })
+      .on("change", function () {
+        const orderedClasses = [...html.get(0).classList]
+          .filter((c) => !["app", "window-app", "application", "wm-managed"].includes(c))
+          .sort()
+          .join(" ");
+        setSetting(
+          settings.WINDOWS_ZOOM_VALUES,
+          foundry.utils.mergeObject(
+            getSetting(settings.WINDOWS_ZOOM_VALUES),
+            { [orderedClasses]: $(this).val() }
+          )
+        );
+      })
+      .appendTo(zoomTool);
+    const zoomHide = $("<i>")
+      .addClass("toggle fas fa-caret-up")
+      .on("click", function () {
+        $(this).closest(".window-zoom-slider").remove();
+      })
+      .appendTo(zoomTool);
   }
 }
 
 Hooks.on("renderFormApplication", setWindowZoomValueFromStorage);
 Hooks.on("renderActorSheet", setWindowZoomValueFromStorage);
+Hooks.on("renderApplicationV2", setWindowZoomValueFromStorage);
 
 Hooks.on("renderSettingsConfig", (app, html: HTMLElement) => {
   if (!MobileMode.enabled) {
@@ -343,14 +350,14 @@ function onMainWindowChanged() {
 }
 
 function setWindowZoomValueFromStorage(app, html) {
+  const elem = "get" in html ? html.get(0) : html;
   if (MobileMode.enabled) {
     const settingObjectValue = getSetting(settings.WINDOWS_ZOOM_VALUES);
-    const orderedClasses = [...html.get(0).classList]
-      .filter((c) => !["app", "window-app"].includes(c))
+    const orderedClasses = [...elem.classList]
+      .filter((c) => !["app", "window-app", "application", "wm-managed"].includes(c))
       .sort()
       .join(" ");
-    html
-      .get(0)
+    elem
       .style.setProperty(
         "--zoomValue",
         settingObjectValue[orderedClasses] || 1
