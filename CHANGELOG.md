@@ -1,3 +1,19 @@
+## [2.0] - 2025-06-19
+
+V13 release! I'm sure there are still a few things to polish, please file bugs or hit us up on Discord.
+
+### Added
+
+- Added LibWrapper dependency to harden extensions of core functionality
+
+### Changed
+
+- New release is for V13 and later only!
+- New style of sidebar tabs to fit the new increased tab count
+- New support for V13 dark/light UI
+- Changed app sizing to auto-resize better with e.g. on-screen keyboards and moving browser UI
+- A lot of deprecations fixed
+
 ## [1.3.3] - 2024-12-14
 
 Bump version to re-release 1.3.2 correctly

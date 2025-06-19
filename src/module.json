@@ -23,7 +23,7 @@
         "type": "module",
         "compatibility": {
           "minimum": "1.13.0.0",
-          "verified": "1.13.2.0"
+          "verified": "1.13.3.0"
         }
       }
     ]
