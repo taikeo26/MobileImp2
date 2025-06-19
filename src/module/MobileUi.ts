@@ -95,7 +95,8 @@ export class MobileUI extends Application {
     const tab = sidebar.querySelector(
       ".sidebar-tab.active"
     ) as HTMLElement | null;
-    const tabs = sidebar.querySelector("#sidebar-tabs");
+    const tabs = sidebar.querySelector("#sidebar-tabs") as HTMLElement;
+    tabs.dataset.tooltipDirection = "RIGHT";
     const icon = tabs?.querySelector("a.collapse i");
     sidebar.style.height = "";
     sidebar.style.width = "";
@@ -119,7 +120,8 @@ export class MobileUI extends Application {
     const tab = sidebar.querySelector(
       ".sidebar-tab.active"
     ) as HTMLElement | null;
-    const tabs = sidebar.querySelector("#sidebar-tabs");
+    const tabs = sidebar.querySelector("#sidebar-tabs") as HTMLElement;
+    tabs.dataset.tooltipDirection = "LEFT";
     const icon = tabs?.querySelector("a.collapse i");
     sidebar.style.height = "";
     sidebar.classList.add("collapsed");
