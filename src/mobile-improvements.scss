@@ -747,7 +747,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
   text-shadow: 0 0 8px red;
 }
 .window-selector button {
-  text-align: left;
+  justify-content: start;
   background: none;
   border: none;
   color: #f0f0e0;
