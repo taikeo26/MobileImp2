@@ -26,6 +26,8 @@ export class MobileUI extends Application {
   windowMenu: WindowMenu;
   mobileMenu: MobileMenu;
 
+  #lastCount = 0;
+
   constructor() {
     super({
       template: "modules/mobile-improvements/templates/navigation.hbs",
@@ -186,9 +188,15 @@ export class MobileUI extends Application {
     } else {
       this.element.find(".navigation-windows").removeClass("disabled");
     }
-    if (this.drawerState == DrawerState.Windows) {
+
+    if (
+      this.drawerState == DrawerState.Windows &&
+      (count === 0 || count > this.#lastCount)
+    ) {
       this.setDrawerState(DrawerState.None);
     }
+
+    this.#lastCount = count;
   }
 
   setDrawerState(state: DrawerState): void {
