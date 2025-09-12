@@ -103,6 +103,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     margin: 0;
     border: none;
     box-shadow: none;
+    flex-flow: row;
   }
 
   .sidebar-tab:not(.sidebar-popout) {
@@ -154,6 +155,7 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 
   #sidebar-tabs > menu {
     gap: 0;
+    flex-direction: column;
   }
 
   #sidebar-tabs .ui-control {
