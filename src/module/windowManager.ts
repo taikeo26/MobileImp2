@@ -91,6 +91,7 @@ export class WindowManager {
       target[property] = value;
       this.windowAdded(parseInt(property as string));
       // Hook for new window being rendered
+      //@ts-expect-error Typings don't like this dynamic key
       Hooks.once("render" + value.constructor.name, (app) =>
         this.newWindowRendered(app.appId)
       );

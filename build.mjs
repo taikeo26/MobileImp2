@@ -38,7 +38,13 @@ const packageTool = new buildTools.PackageTool(options);
 // Patterns for watch & compile
 const sourceGroups = {
   ts: ["src/**/*.ts"],
-  sass: ["src/mobile-improvements.scss", "src/sheets/dnd5e.scss", "src/sheets/pf2e.scss", "src/sheets/gurps.scss", "src/sheets/sfrpg.scss"],
+  sass: [
+    "src/mobile-improvements.scss",
+    "src/sheets/dnd5e.scss",
+    "src/sheets/pf2e.scss",
+    "src/sheets/gurps.scss",
+    "src/sheets/sfrpg.scss",
+  ],
 
   // Folders are copied as-is
   folders: ["templates", "lang"],

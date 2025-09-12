@@ -19,7 +19,7 @@ export function initChatEffects() {
       const shouldBloop =
         globalThis.MobileMode.navigation.state === ViewState.Map ||
         window.WindowManager.minimizeAll() ||
-        ui.sidebar.activeTab !== "chat";
+        ui.sidebar.tabGroups.primary !== "chat";
 
       globalThis.MobileMode.navigation.showSidebar();
       ui.sidebar.activateTab("chat");

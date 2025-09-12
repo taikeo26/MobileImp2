@@ -11,7 +11,7 @@ export class TouchInput {
   tapStartPos = { x: 0, y: 0 };
   touches = 0;
 
-  getTarget(evt: PIXI.InteractionEvent): PlaceableObject | null {
+  getTarget(evt: PIXI.FederatedPointerEvent): PlaceableObject | null {
     let target = evt.target as PlaceableObject;
     while (!target?.document && target?.parent) {
       target = target.parent as PlaceableObject;

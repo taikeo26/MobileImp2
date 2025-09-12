@@ -58,7 +58,7 @@ export class MobileUI extends Application {
     $(document.body).removeClass("windows-open");
   }
 
-  render(force: boolean, ...arg: unknown[]): unknown {
+  render(force: boolean, ...arg: unknown[]): this {
     this.noCanvas = game.settings.get("core", "noCanvas") as boolean;
     this.state = this.noCanvas ? ViewState.App : ViewState.Map;
 
@@ -157,7 +157,7 @@ export class MobileUI extends Application {
       this.toggleHud();
     }
     this.state = ViewState.Map;
-    canvas.ready && canvas.app?.start();
+    canvas?.ready && canvas.app?.start();
     this.setDrawerState(DrawerState.None);
     this.updateMode();
   }

@@ -1,15 +1,9 @@
 {
   "compilerOptions": {
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "target": "ES2020",
-    "lib": [
-      "DOM",
-      "ES6",
-      "ES2020"
-    ],
-    "types": [
-      "@league-of-foundry-developers/foundry-vtt-types"
-    ],
+    "lib": ["DOM", "ES6", "ES2020"],
+    "types": ["fvtt-types"],
     "module": "ES2020",
     "esModuleInterop": true,
     "strictNullChecks": true

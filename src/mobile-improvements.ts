@@ -10,13 +10,6 @@ import { MobileUI } from "./module/MobileUi.js";
 import { TouchInput } from "./module/touchInput.js";
 import { initChatEffects } from "./module/chatEffects.js";
 
-declare global {
-  interface LenientGlobalVariableTypes {
-    game: never;
-    ui: never;
-  }
-}
-
 function setMeta(maxScale = "1.0") {
   const meta = document.querySelector(`meta[name="viewport"]`);
   if (meta) {
@@ -92,7 +85,10 @@ function showToggleModeButton(show: boolean) {
   const button = $("<button>")
     .attr("id", "mobile-improvements-toggle")
     .attr("type", "button")
-    .attr("data-tooltip", game.i18n.localize("MOBILEIMPROVEMENTS.EnableMobileMode"))
+    .attr(
+      "data-tooltip",
+      game.i18n.localize("MOBILEIMPROVEMENTS.EnableMobileMode")
+    )
     .attr("data-tooltip-direction", "LEFT")
     .addClass("ui-control icon fa-solid fa-mobile-alt");
   $("#hotbar").prepend(button);
@@ -136,7 +132,9 @@ Hooks.on("drawPrimaryCanvasGroup", () => {
     width: sceneBackgroundTexture.width,
     height: sceneBackgroundTexture.height,
   };
-  const maxTextureSize = canvas.app?.renderer.gl.getParameter(
+  //@ts-expect-error Not worth extending PIXI types
+  const maxTextureSize = canvas?.app?.renderer.gl.getParameter(
+    //@ts-expect-error Not worth extending PIXI types
     canvas.app?.renderer.gl.MAX_TEXTURE_SIZE
   );
   if (
@@ -181,7 +179,7 @@ Hooks.on("ready", () => {
   showToggleModeButton(getSetting(settings.SHOW_MOBILE_TOGGLE));
 });
 
-Hooks.once("renderChatLog", (app: ApplicationV2) => {
+Hooks.once("renderChatLog", (app) => {
   if (!app.element) {
     return;
   }
@@ -270,15 +268,17 @@ function createZoomControl(app) {
       })
       .on("change", function () {
         const orderedClasses = [...html.get(0).classList]
-          .filter((c) => !["app", "window-app", "application", "wm-managed"].includes(c))
+          .filter(
+            (c) =>
+              !["app", "window-app", "application", "wm-managed"].includes(c)
+          )
           .sort()
           .join(" ");
         setSetting(
           settings.WINDOWS_ZOOM_VALUES,
-          foundry.utils.mergeObject(
-            getSetting(settings.WINDOWS_ZOOM_VALUES),
-            { [orderedClasses]: $(this).val() }
-          )
+          foundry.utils.mergeObject(getSetting(settings.WINDOWS_ZOOM_VALUES), {
+            [orderedClasses]: $(this).val(),
+          })
         );
       })
       .appendTo(zoomTool);
@@ -354,14 +354,15 @@ function setWindowZoomValueFromStorage(app, html) {
   if (MobileMode.enabled) {
     const settingObjectValue = getSetting(settings.WINDOWS_ZOOM_VALUES);
     const orderedClasses = [...elem.classList]
-      .filter((c) => !["app", "window-app", "application", "wm-managed"].includes(c))
+      .filter(
+        (c) => !["app", "window-app", "application", "wm-managed"].includes(c)
+      )
       .sort()
       .join(" ");
-    elem
-      .style.setProperty(
-        "--zoomValue",
-        settingObjectValue[orderedClasses] || 1
-      );
+    elem.style.setProperty(
+      "--zoomValue",
+      settingObjectValue[orderedClasses] || 1
+    );
   }
 }
 
