@@ -1036,3 +1036,27 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
     justify-content: center;
   }
 }
+
+.mobile-improvements {
+  #daggerheart-hud {
+    bottom: var(--navigationHeight) !important;
+    top: unset !important;
+    min-height: unset !important;
+    height: auto !important;
+    width: auto !important;
+    &.application.wm-managed.minimized {
+      transform: translateY(calc(100% + 150px));
+    }
+    .window-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .dhud--layout[data-wings="closed"] {
+      grid-template-columns: auto auto auto;
+    }
+    .dhud-wing {
+      flex-direction: column;
+    }
+  }
+}
