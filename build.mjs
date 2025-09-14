@@ -47,7 +47,7 @@ const sourceGroups = {
   ],
 
   // Folders are copied as-is
-  folders: ["templates", "lang"],
+  folders: ["images", "templates", "lang"],
 };
 
 /********************/

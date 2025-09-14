@@ -663,17 +663,15 @@ body.game.mobile-improvements :is(.app, .sidebar-tab) {
 /* ------------------------------------ */
 
 #mobile-improvements-about {
-  max-height: 260px;
+  max-width: 400px;
   .window-content {
     padding: 30px;
-    div {
+    text-align: center;
+    ul {
       text-align: center;
-      ul {
-        text-align: center;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
+      list-style: none;
+      padding: 0;
+      margin: 0;
     }
   }
 }

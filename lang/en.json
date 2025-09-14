@@ -18,10 +18,12 @@
   "MOBILEIMPROVEMENTS.MenuPlayerList": "Toggle player list",
   "MOBILEIMPROVEMENTS.MenuFullscreen": "Toggle fullscreen",
   "MOBILEIMPROVEMENTS.EnableMobileMode": "Enable Mobile Mode",
-  "MOBILEIMPROVEMENTS.AboutText": "Mobile Improvements helps you use Foundry on your phone or tablet. Created with love by Sunspots.",
+  "MOBILEIMPROVEMENTS.AboutTitle": "About Mobile Improvements",
+  "MOBILEIMPROVEMENTS.AboutThanks": "Thank you for using Mobile Improvements!",
+  "MOBILEIMPROVEMENTS.AboutText": "Mobile Improvements helps you use Foundry on your phone or tablet. Created with love by Sunspots and our community.",
   "MOBILEIMPROVEMENTS.AboutIssues": "Report an issue",
-  "MOBILEIMPROVEMENTS.AboutFoundryHub": "Endorse on Foundry Hub",
   "MOBILEIMPROVEMENTS.AboutSupport": "Support the creator",
+  "MOBILEIMPROVEMENTS.AboutDiscord": "Join us on Discord",
   "MOBILEIMPROVEMENTS.MaxTextureSizeExceeded": "The scene background texture ({width}x{height}) exceeds the maximum size for your device ({maxTextureSize}px) and cannot be loaded.",
   "MOBILEIMPROVEMENTS.ZoomOut": "Zoom Out"
 }
