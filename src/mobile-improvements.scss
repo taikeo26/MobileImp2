@@ -35,7 +35,7 @@ body {
 
 /* Better loading */
 .chat-message {
-  background-color: #d8d7cc;
+  background-color: var(--chat-background);
 }
 
 body.mobile-improvements {
