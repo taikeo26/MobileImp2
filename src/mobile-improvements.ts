@@ -89,34 +89,41 @@ function showToggleModeButton(show: boolean) {
     $("#mobile-improvements-toggle").detach();
     return;
   }
+
   const button = $("<button>")
     .attr("id", "mobile-improvements-toggle")
     .attr("type", "button")
-    .attr("data-tooltip", game.i18n.localize("MOBILEIMPROVEMENTS.EnableMobileMode"))
+    .attr(
+      "data-tooltip",
+      game.i18n.localize("MOBILEIMPROVEMENTS.EnableMobileMode")
+    )
     .attr("data-tooltip-direction", "LEFT")
     .addClass("ui-control icon fa-solid fa-mobile-alt");
+
   $("#hotbar").prepend(button);
+
   button.on("click", () => {
     setSetting(settings.PIN_MOBILE_MODE, true);
   });
 }
 
-// Trigger the recalculation of viewheight often. Not great performance,
-// but required to work on different mobile browsers
 document.addEventListener("fullscreenchange", () =>
   setTimeout(MobileMode.viewResize, 100)
 );
 window.addEventListener("resize", MobileMode.viewResize);
 window.addEventListener("scroll", MobileMode.viewResize);
+
 MobileMode.viewResize();
 
 Hooks.once("init", async function () {
   console.log("Mobile Improvements | Initializing Mobile Improvements");
+
   windowMgr.activate();
 
   if (MobileMode.navigation === undefined) {
     MobileMode.navigation = new MobileUI();
   }
+
   registerSettings({
     [settings.SHOW_PLAYER_LIST]: togglePlayerList,
     [settings.SHOW_MOBILE_TOGGLE]: showToggleModeButton,
@@ -125,20 +132,21 @@ Hooks.once("init", async function () {
       else MobileMode.leave();
     },
   });
+
   await preloadTemplates();
 });
 
 Hooks.on("drawPrimaryCanvasGroup", () => {
-  const sceneBackgroundTexture =
-    //@ts-ignore
-    canvas.app?.stage.rendered.environment.primary.background.texture;
+  const sceneBackgroundTexture = canvas.primary?.background?.texture;
+  if (!sceneBackgroundTexture) return;
+
   const textureSize = {
     width: sceneBackgroundTexture.width,
     height: sceneBackgroundTexture.height,
   };
-  const maxTextureSize = canvas.app?.renderer.gl.getParameter(
-    canvas.app?.renderer.gl.MAX_TEXTURE_SIZE
-  );
+
+  const maxTextureSize = canvas.getGLParameter("MAX_TEXTURE_SIZE");
+
   if (
     maxTextureSize &&
     Math.max(textureSize.width, textureSize.height) > maxTextureSize
@@ -155,13 +163,15 @@ Hooks.on("drawPrimaryCanvasGroup", () => {
 
 Hooks.on("ready", () => {
   supressNotifications();
-  // Compatibility with Window Controls
+
   if (game.modules?.get("window-controls")?.active) {
     MobileMode.compatibilityClasses.push("mi-window-controls");
+
     const organizedMinimize = game.settings.get(
       "window-controls",
       "organizedMinimize"
     );
+
     if (organizedMinimize == "persistentTop") {
       MobileMode.compatibilityClasses.push(
         "mi-window-controls-persistent",
@@ -173,25 +183,36 @@ Hooks.on("ready", () => {
         "mi-window-controls-persistent-bottom"
       );
     }
+
     MobileMode.updateCompatibilityClasses();
   }
+
   MobileMode.navigation.render(true);
   initChatEffects();
 
   showToggleModeButton(getSetting(settings.SHOW_MOBILE_TOGGLE));
 });
 
-Hooks.once("renderChatLog", (app: ApplicationV2) => {
-  if (!app.element) {
-    return;
-  }
-  let touchWhenFocused = false;
-  const form = app.element.querySelector(".chat-form") as HTMLFormElement;
-  const textarea = form?.querySelector("#chat-message") as HTMLTextAreaElement;
+function ensureChatSendButton() {
+  const form = document.querySelector("#chat-form, .chat-form") as
+    | HTMLFormElement
+    | null;
+
+  if (!form || form.querySelector("#chat-form--send")) return;
+
+  const textarea = form.querySelector("#chat-message") as
+    | HTMLTextAreaElement
+    | null;
+
   const controls = form.querySelector(".chat-controls");
+
+  if (!textarea || !controls) return;
+
+  let touchWhenFocused = false;
 
   const btn = document.createElement("button");
   btn.id = "chat-form--send";
+  btn.type = "button";
   btn.className = "ui-control";
   btn.innerHTML = `<i class="fas fa-paper-plane"></i>`;
 
@@ -200,30 +221,40 @@ Hooks.once("renderChatLog", (app: ApplicationV2) => {
       touchWhenFocused = true;
     }
   });
+
   btn.addEventListener("touchend", () => {
-    setTimeout(() => (touchWhenFocused = false), 100);
+    setTimeout(() => {
+      touchWhenFocused = false;
+    }, 100);
   });
 
   btn.addEventListener("click", (evt) => {
     evt.preventDefault();
+
     if (touchWhenFocused) {
-      textarea?.focus();
+      textarea.focus();
     }
-    console.log(app);
-    //@ts-ignore
-    app._onKeyDown({
-      key: "Enter",
-      target: textarea,
-      preventDefault: () => {},
-      stopPropagation: () => {},
-      currentTarget: textarea,
-    });
+
+    textarea.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Enter",
+        code: "Enter",
+        bubbles: true,
+        cancelable: true,
+      })
+    );
   });
-  controls?.append(btn);
-});
+
+  controls.append(btn);
+}
+
+Hooks.on("renderChatInput", () => ensureChatSendButton());
+Hooks.on("renderChatLog", () => ensureChatSendButton());
 
 Hooks.once("renderSceneNavigation", () => {
-  if (MobileMode.enabled) ui.nav?.collapse();
+  if (MobileMode.enabled) {
+    ui.nav?.collapse();
+  }
 });
 
 Hooks.once("renderPlayerList", () =>
@@ -248,16 +279,19 @@ function addWindowZoomControlButton(app, buttons) {
 
 function createZoomControl(app) {
   const html = $(app.element);
+
   const currentZoom = getComputedStyle(html.get(0)).getPropertyValue(
     "--zoomValue"
   );
+
   if (html.find(".window-zoom-slider").length > 0) {
     html.find(".window-zoom-slider").remove();
   } else {
     const zoomTool = $("<div>")
       .addClass("flexrow window-zoom-slider")
       .insertAfter(html.find(".window-header"));
-    const zoomSlider = $("<input>")
+
+    $("<input>")
       .attr("type", "range")
       .attr("min", 0.5)
       .attr("max", 1)
@@ -270,19 +304,31 @@ function createZoomControl(app) {
       })
       .on("change", function () {
         const orderedClasses = [...html.get(0).classList]
-          .filter((c) => !["app", "window-app", "application", "wm-managed"].includes(c))
+          .filter(
+            (c) =>
+              ![
+                "app",
+                "window-app",
+                "application",
+                "wm-managed",
+              ].includes(c)
+          )
           .sort()
           .join(" ");
+
         setSetting(
           settings.WINDOWS_ZOOM_VALUES,
           foundry.utils.mergeObject(
             getSetting(settings.WINDOWS_ZOOM_VALUES),
-            { [orderedClasses]: $(this).val() }
+            {
+              [orderedClasses]: $(this).val(),
+            }
           )
         );
       })
       .appendTo(zoomTool);
-    const zoomHide = $("<i>")
+
+    $("<i>")
       .addClass("toggle fas fa-caret-up")
       .on("click", function () {
         $(this).closest(".window-zoom-slider").remove();
@@ -299,17 +345,21 @@ Hooks.on("renderSettingsConfig", (app, html: HTMLElement) => {
   if (!MobileMode.enabled) {
     return;
   }
+
   const sidebar = html.querySelector(
     `aside[data-application-part="sidebar"]`
   ) as HTMLElement;
+
   const toggle = document.createElement("div");
   toggle.className = "sidebar-toggle";
   toggle.innerHTML = `<i class="fas fa-caret-left"></i>`;
+
   sidebar?.insertAdjacentElement("afterend", toggle);
 
   toggle.addEventListener("click", () => {
     const visible = sidebar.style.display !== "none";
     const icon = toggle.firstElementChild!;
+
     if (visible) {
       icon.classList.remove("fa-caret-left");
       icon.classList.add("fa-caret-right");
@@ -326,21 +376,28 @@ Hooks.on("WindowManager:Maximized", onMainWindowChanged);
 Hooks.on("WindowManager:Minimized", onMainWindowChanged);
 Hooks.on("WindowManager:Removed", onMainWindowChanged);
 
-function setMetaForWindow(html: HTMLElement | JQuery<HTMLElement> | undefined) {
+function setMetaForWindow(
+  html: HTMLElement | JQuery<HTMLElement> | undefined
+) {
   if (MobileMode.enabled && html) {
     const elem = "get" in html ? html.get(0) : html;
+
     const isZoomed =
       elem &&
-      parseFloat(getComputedStyle(elem).getPropertyValue("--zoomValue")) < 1;
+      parseFloat(
+        getComputedStyle(elem).getPropertyValue("--zoomValue")
+      ) < 1;
+
     setMeta(isZoomed ? "2.0" : "1.0");
   }
 }
 
 function onMainWindowChanged() {
   if (MobileMode.enabled) {
-    const currentWindow = Object.values(windowMgr.getManager().windows).find(
-      (w) => !w.minimized
-    );
+    const currentWindow = Object.values(
+      windowMgr.getManager().windows
+    ).find((w) => !w.minimized);
+
     if (currentWindow) {
       setMetaForWindow(currentWindow.app.element);
     } else {
@@ -351,17 +408,29 @@ function onMainWindowChanged() {
 
 function setWindowZoomValueFromStorage(app, html) {
   const elem = "get" in html ? html.get(0) : html;
+
   if (MobileMode.enabled) {
-    const settingObjectValue = getSetting(settings.WINDOWS_ZOOM_VALUES);
+    const settingObjectValue = getSetting(
+      settings.WINDOWS_ZOOM_VALUES
+    );
+
     const orderedClasses = [...elem.classList]
-      .filter((c) => !["app", "window-app", "application", "wm-managed"].includes(c))
+      .filter(
+        (c) =>
+          ![
+            "app",
+            "window-app",
+            "application",
+            "wm-managed",
+          ].includes(c)
+      )
       .sort()
       .join(" ");
-    elem
-      .style.setProperty(
-        "--zoomValue",
-        settingObjectValue[orderedClasses] || 1
-      );
+
+    elem.style.setProperty(
+      "--zoomValue",
+      settingObjectValue[orderedClasses] || 1
+    );
   }
 }
 
@@ -381,12 +450,15 @@ function supressNotifications() {
         console.info("notification suppressed", args);
         return;
       }
+
       return wrapped(...args);
     }
   );
 }
 
 const touchInput = new TouchInput();
+
 Hooks.on("canvasReady", () => touchInput.hook());
+Hooks.on("canvasTearDown", () => touchInput.unhook());
 
 globalThis.MobileMode = MobileMode;
