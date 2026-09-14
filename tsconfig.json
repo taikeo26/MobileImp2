@@ -7,11 +7,21 @@
       "ES6",
       "ES2020"
     ],
-    "types": [
-      "@league-of-foundry-developers/foundry-vtt-types"
-    ],
     "module": "ES2020",
     "esModuleInterop": true,
-    "strictNullChecks": true
-  }
+    "strictNullChecks": true,
+    "baseUrl": ".",
+    "paths": {
+      "@common/*": [
+        "./node_modules/@dfreds/foundry-types/common/*"
+      ],
+      "@client/*": [
+        "./node_modules/@dfreds/foundry-types/client/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts"
+  ]
 }
