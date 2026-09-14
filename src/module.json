@@ -1,9 +1,8 @@
 {
   "id": "mobile-improvements",
-  "name": "mobile-improvements",
   "title": "Mobile Improvements",
   "description": "Mobile Improvements improves usability on smaller screen sizes.",
-  "version": "",
+  "version": "2.1.0",
   "authors": [
     {
       "name": "Sunspots",
@@ -11,7 +10,9 @@
     }
   ],
   "scripts": [],
-  "esmodules": ["mobile-improvements.js"],
+  "esmodules": [
+    "mobile-improvements.js"
+  ],
   "relationships": {
     "requires": [
       {
@@ -29,10 +30,7 @@
     ]
   },
   "styles": [
-    {
-      "src": "./mobile-improvements.css",
-      "layer": null
-    },
+    "./mobile-improvements.css",
     "./dnd5e.css",
     "./pf2e.css",
     "./gurps.css",
@@ -47,14 +45,17 @@
     }
   ],
   "compatibility": {
-    "minimum": "13.336",
-    "verified": "13.344"
+    "minimum": "14.367",
+    "verified": "14.367",
+    "maximum": "14"
   },
-  "url": "",
-  "manifest": "",
-  "download": "",
-  "license": "",
-  "readme": "",
-  "bugs": "",
-  "changelog": ""
+  "url": "https://github.com/taikeo26/MobileImp2",
+  "manifest": "https://github.com/taikeo26/MobileImp2/releases/latest/download/module.json",
+  "download": "https://github.com/taikeo26/MobileImp2/releases/download/v2.1.0/mobile-improvements.zip",
+  "license": "https://github.com/taikeo26/MobileImp2/blob/main/LICENSE.md",
+  "readme": "https://github.com/taikeo26/MobileImp2/blob/main/README.md",
+  "bugs": "https://github.com/taikeo26/MobileImp2/issues",
+  "changelog": "https://github.com/taikeo26/MobileImp2/blob/main/CHANGELOG.md",
+  "type": "module",
+  "media": []
 }
