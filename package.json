@@ -1,21 +1,41 @@
 {
+  "private": true,
   "name": "mobile-improvements",
   "version": "2.1.0",
-  "description": "Mobile Improvements for Foundry Virtual Tabletop",
+  "description": "Foundry VTT module for mobile screens",
   "scripts": {
-    "build": "gulp build",
-    "build:watch": "gulp build --watch"
+    "build": "node build.mjs build",
+    "build:install": "node build.mjs build link",
+    "build:watch": "node build.mjs watch",
+    "clean": "node build.mjs clean",
+    "clean:real": "node build.mjs clean unlink",
+    "package": "node build.mjs package",
+    "publish": "node build.mjs clean build package"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/taikeo26/MobileImp2.git"
   },
   "author": "Sunspots",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/taikeo26/MobileImp2/issues"
+  },
+  "homepage": "https://github.com/taikeo26/MobileImp2",
   "devDependencies": {
-    "@league-of-foundry-developers/foundry-vtt-types": "^14.367.0",
-    "@types/jquery": "^3.5.32",
-    "@types/node": "^24.3.1",
-    "gulp": "^5.0.1",
-    "gulp-dart-sass": "^1.1.0",
-    "gulp-sourcemaps": "^3.0.0",
-    "sass": "^1.92.1",
-    "typescript": "^5.9.2"
+    "@dfreds/foundry-types": "^14.366.0",
+    "@rollup/plugin-alias": "^5.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "build-tools": "gitlab:fvtt-modules-lab/build-tools",
+    "chalk": "^4.1.2",
+    "chokidar": "^3.6.0",
+    "eslint": "^9.6.0",
+    "fs-extra": "^11.2.0",
+    "globby": "^14.0.2",
+    "rollup": "^4.18.1",
+    "sass": "^1.77.6",
+    "tslib": "~2.6.3",
+    "typescript": "~4.7.2"
   }
 }
