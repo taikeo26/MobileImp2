@@ -1,4 +1,4 @@
-import { Window, WindowV2 } from "./windowManager";
+import { Window, WindowV2 } from "./windowManager.js";
 import type { MobileUI } from "./MobileUi.js";
 
 const icons = {
@@ -51,6 +51,7 @@ export class WindowMenu extends Application {
     if (win.options?.window?.icon) {
       return win.options?.window?.icon;
     }
+
     let windowType: string =
       win.icon ||
       win.tabName ||
@@ -58,20 +59,28 @@ export class WindowMenu extends Application {
       win.document?.collectionName ||
       (win.metadata ? "compendium" : "") ||
       "";
+
     windowType = windowType.toLowerCase();
+
     const icon = icons[windowType] || windowType;
     return icon;
   }
 
   newWindow = (win: Window | WindowV2): JQuery<HTMLElement> => {
     const winIcon = this.winIcon(win.app);
+
     const windowButton = $(
       `<button class="window-select" title="${win.title}"><i class="fas ${winIcon}"></i> ${win.title}</button>`
     );
+
     const closeButton = $(
       `<button class="window-close" title="close"><i class="fas fa-times"></i></button>`
     );
-    const row = $(`<li class="window-row"  data-id="${win.id}"></li>`);
+
+    const row = $(
+      `<li class="window-row" data-id="${win.id}"></li>`
+    );
+
     row.append(windowButton, closeButton);
 
     windowButton.on("click", (ev) => {
@@ -79,23 +88,35 @@ export class WindowMenu extends Application {
       win.show();
       this.nav.closeDrawer();
     });
+
     closeButton.on("click", (ev) => {
       ev.preventDefault();
       win.close();
     });
+
     return row;
   };
+
   windowAdded(appId: number | string): void {
-    this.list?.append(this.newWindow(window.WindowManager.windows[appId]));
+    this.list?.append(
+      this.newWindow(window.WindowManager.windows[appId])
+    );
     this.update();
   }
+
   windowRemoved(appId: number | string): void {
-    this.list?.find(`li[data-id="${appId}"]`).remove();
+    this.list
+      ?.find(`li[data-id="${appId}"]`)
+      .remove();
+
     this.update();
   }
 
   update(): void {
-    const winCount = Object.values(window.WindowManager.windows).length;
+    const winCount = Object.values(
+      window.WindowManager.windows
+    ).length;
+
     this.nav.setWindowCount(winCount);
   }
 }
