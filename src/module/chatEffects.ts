@@ -24,10 +24,11 @@ function isRollHiddenFromAllPlayers(message: ChatMessage): boolean {
   // Если whisper пустой — сообщение публичное.
   if (whisperIds.size === 0) return false;
 
+  const msg = message as any;
   const authorId =
-    message.author?.id ??
-    message.user?.id ??
-    message.user;
+    msg.author?.id ??
+    msg.user?.id ??
+    msg.user;
 
   for (const player of players) {
     // Автор обычного private/GM/self roll видит свой бросок.
@@ -128,8 +129,9 @@ export function initChatEffects() {
        *   ui.sidebar.changeTab(...)
        */
       if (getSetting(settings.SHOW_CHAT_ON_ROLL)) {
+        const sidebar = ui.sidebar as any;
         const activeTab =
-          ui.sidebar?.tabGroups?.primary;
+          sidebar?.tabGroups?.primary;
 
         const shouldBloop =
           globalThis.MobileMode.navigation.state ===
@@ -139,7 +141,7 @@ export function initChatEffects() {
 
         globalThis.MobileMode.navigation.showSidebar();
 
-        ui.sidebar?.changeTab(
+        sidebar?.changeTab(
           "chat",
           "primary",
           { force: true }
