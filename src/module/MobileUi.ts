@@ -95,14 +95,16 @@ export class MobileUI extends Application {
   }
 
   expandSidebarWithoutAnimation() {
-    if (!ui.sidebar?.expanded) {
-      ui.sidebar?.expand();
+    const sidebar = ui.sidebar as any;
+    if (!sidebar?.expanded) {
+      sidebar?.expand();
     }
   }
 
   collapseSidebarWithoutAnimation() {
-    if (ui.sidebar?.expanded) {
-      ui.sidebar?.collapse();
+    const sidebar = ui.sidebar as any;
+    if (sidebar?.expanded) {
+      sidebar?.collapse();
     }
   }
 
@@ -141,7 +143,8 @@ export class MobileUI extends Application {
     this.state = ViewState.App;
 
     this.toggleHud(true);
-    ui.sidebar?.expand();
+    const sidebar = ui.sidebar as any;
+    sidebar?.expand();
 
     if (!isTabletMode()) {
       window.WindowManager.minimizeAll();
