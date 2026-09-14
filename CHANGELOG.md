@@ -1,3 +1,26 @@
+## [2.1.0] - 2026-09-15
+
+Foundry VTT 14 compatibility update.
+
+### Changed
+
+- Updated Mobile Improvements for Foundry VTT 14.
+- Updated sidebar handling to use the current public sidebar API.
+- Updated chat tab switching for the Foundry V14 sidebar.
+- Updated touch handling to use pointer events.
+- Updated ApplicationV2 window handling.
+- Updated canvas maximum texture size detection for Foundry V14.
+
+### Fixed
+
+- Restored Foundry/PF2e chat message backgrounds instead of forcing the same background on every message.
+- Added a bold "Скрытая проверка" label for GM-visible rolls whose result is hidden from all normal players.
+- Prevented hidden rolls from leaking through Mobile Improvements roll bubbles.
+- Prevented duplicate touch handlers after scene changes.
+- Improved compatibility with ApplicationV2 windows.
+
+---
+
 ## [2.0] - 2025-06-19
 
 V13 release! I'm sure there are still a few things to polish, please file bugs or hit us up on Discord.
